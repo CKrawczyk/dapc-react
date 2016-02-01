@@ -1,0 +1,14 @@
+.heading {
+  display: table;
+  margin: 0 auto;
+  font-size: 18px;
+  font-weight: 300;
+}
+
+.reduce-left-pad {
+  padding-left: 3px;
+}
+
+.reduce-right-pad {
+  padding-right: 3px;
+}

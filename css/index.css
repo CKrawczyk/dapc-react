@@ -1,0 +1,38 @@
+/*csslint fallback-colors:false */
+.box {
+  background-color: rgba(200,200,200,.85);
+  border: 3px solid rgba(100,100,100,.5);
+  padding: 5px 10px;
+  margin: 3px -12px;
+}
+
+hr {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border-top: 2px solid #aaa;
+}
+
+.root {
+  background-image: url("../app/lib/images/RedDragon.png");
+  background-size: 100%;
+  background-repeat: no-repeat;
+  min-height: 950px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.select-height {
+  height: 36px;
+}
+
+.health-box {
+  height: 88px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+@media (min-width : 768px) and (max-width: 992px) {
+  .sm-up {
+    margin-top: -94px;
+  }
+}

@@ -1,0 +1,6 @@
+npm-debug.log
+node_modules
+app/lib/*
+*.iml
+move_to_icg.sh
+dist/*

@@ -1,0 +1,19 @@
+.input-group .form-control {
+  padding-right: 6px;
+  z-index: 0;
+}
+
+.form-group {
+  margin-bottom: 2px;
+}
+
+.statName {
+  font-size: 25px;
+  font-weight: 300;
+}
+
+.Select-control,
+.Select-input,
+.Select-arrow-zone {
+  height: 32px;
+}
