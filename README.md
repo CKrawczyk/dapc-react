@@ -159,6 +159,11 @@ One file for each spell school (e.g. `spells_creation.js`). Each file contains a
 }
 ```
 
+## app/lib/images/RedDragon.png
+Background image for the site.
+
+## app/lib/spell_icons/spl_ico_*.png
+Spell icons taken from Dragon Age: Origins via the game's official mod tools.
 
 TODO:
 - enter spell info
