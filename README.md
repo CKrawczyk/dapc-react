@@ -1,8 +1,8 @@
 Dragon Age table top RPG character sheet using react.js
 
 ## app/lib
-The `app/lib` contains files with the information contained in the Dragon Age core rule book.  As I can't provide this information here,
-the format for each of these files is as follows.
+The files in `app/lib` contain information from the Dragon Age [core rule book](http://greenroninstore.com/products/dragon-age-rpg-core-rulebook).
+ As I can't provide this information here, the format for each of these files/folders is as follows.
 
 ### focus.js
 Each stat has a object of the form:
@@ -13,7 +13,8 @@ Each stat has a object of the form:
     'focus 1',
     'focus 2',
     ...
-  ]
+  ],
+  ...
 }
 ```
 
@@ -80,7 +81,7 @@ An array containing information for each talent:
 [
   {
     label: 'talent name',
-    classes: ['array of class for this talent'],
+    classes: ['array', 'of', 'class', 'for', 'this', 'talent'],
     requirement: 'requirement for talent',
     novice: 'novice level of talent',
     journeyman: 'journeyman level of talent',
@@ -97,15 +98,17 @@ An array of the various weapon groups:
   {
     label: 'weapon group name',
     id: 'check box label for group'
-    size: 'number of cols wide check box is'
-    skip: 'number of cols to skip before check box'
+    size: 'number of bootstrap cols wide the check box is'
+    skip: 'number of bootstrap cols to skip before the check box'
   },
   ...
 ]
 ```
 
 ### spells_*.js
-One file for each spell school (e.g. `spells_creation.js`). Each file contains an object with all spells from the school:
+One file for each spell school (e.g. `spells_creation.js`). Each file contains an object with all spells from the school split into three groups
+`basic`, `focus`, and `special`. Each spell book row in the `basic` array are spells that require each other. The spells in the `focus` object
+require the current spell school's focus. Each specialization for the current spell school has an object in the `special` object.
 ```js
 {
   basic: [
@@ -163,7 +166,8 @@ One file for each spell school (e.g. `spells_creation.js`). Each file contains a
 Background image for the site.
 
 ## app/lib/spell_icons/spl_ico_*.png
-Spell icons taken from Dragon Age: Origins via the game's official mod tools.
+108 spell icons taken from Dragon Age: Origins and Dragon Age: Awakening via the game's official mod tools.  For spells that are not from
+either game appropriate icons were found from the other icons in those games.
 
 TODO:
 - enter spell info
