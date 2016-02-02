@@ -32,6 +32,10 @@
   border-bottom-right-radius: 0;
 }
 
+.no-radius {
+  border-radius: 0;
+}
+
 .pm-button {
   z-index: 0 !important;
   height: 68px;

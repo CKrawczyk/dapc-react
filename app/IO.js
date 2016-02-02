@@ -78,7 +78,7 @@ export default class IO extends Component {
               </ButtonGroup>
               <ButtonGroup>
                 <FileInput as="text" onChange={this.onUpload}>
-                  <Button>Load</Button>
+                  <Button className="no-radius">Load</Button>
                 </FileInput>
               </ButtonGroup>
               <ButtonGroup>
