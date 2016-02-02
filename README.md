@@ -162,6 +162,9 @@ require the current spell school's focus. Each specialization for the current sp
 }
 ```
 
+## blank.json
+A json file containing a "blank" save file (loaded when `clear` is pressed).
+
 ## app/lib/images/RedDragon.png
 Background image for the site.
 
