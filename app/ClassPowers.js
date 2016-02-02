@@ -15,7 +15,7 @@ const powerInfo = (item) => {
     <Popover
       id={`${item.label} Information`}
       title={`${item.label} Information`}
-      className="power-popover"
+      className="talent-popover"
     >
       <Row>
         <Col xs={12}>

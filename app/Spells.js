@@ -211,13 +211,14 @@ class SpellRow extends Component {
             width={2}
             spell={s}
             key={idx}
-            idx={`${this.props.idx}, ${idx}`}
+            idx={`${this.props.idx}, ${jdx}`}
             onCheckbox={this.props.onCheckbox}
             name={this.props.name}
-            checked={this.props.checked[idx]}
+            checked={this.props.checked[jdx]}
           />
         );
         idx++;
+        jdx++;
         if (s.next.length > 0) {
           spells.push(<Arrow key={`${idx}_arrow`} width={1} type={s.next} />);
         } else {
@@ -278,7 +279,7 @@ class Arrow extends Component {
 
 const spellInfo = (item) => {
   return (
-    <Popover id={`${item.label} Information`} title={`${item.label} Information`} className="spell-popover">
+    <Popover id={`${item.label} Information`} title={`${item.label} Information`} className="talent-popover">
       <Row>
         <Col xs={12}>
           <b>Spell Type:</b> {item.info.type}
@@ -321,7 +322,7 @@ class SpellItem extends Component {
         <div className="center">
           <img src={src} />
         </div>
-        <OverlayTrigger trigger="click" placement="left" overlay={spellInfo(this.props.spell)}>
+        <OverlayTrigger trigger="click" placement="right" overlay={spellInfo(this.props.spell)}>
           <Button className="spell-name no-left-pad no-right-pad">{this.props.spell.label}</Button>
         </OverlayTrigger>
         <div className="center">
@@ -426,7 +427,7 @@ class ActiveSpell extends ActiveBlock {
       <Row className={this.getClassName()}>
         <Col xs={6} className="no-left-pad">
           <OverlayTrigger trigger="click" placement="left" overlay={spellInfo(this.props.spell)}>
-            <Button className="no-left-pad no-right-pad" bsSize="xsmall" block={true}>
+            <Button className="no-left-pad no-right-pad" bsSize="small" block={true}>
               {this.props.spell.label}
             </Button>
           </OverlayTrigger>
@@ -560,11 +561,7 @@ export default class Spells extends Component {
             for (const idx in this.state[school][section]) {
               for (const jdx in this.state[school][section][idx]) {
                 if (this.state[school][section][idx][jdx]) {
-                  let spell = spellLookUp[school][section][idx][jdx];
-                  if (Object.keys(spell).length === 0) {
-                    // odd bug, not sure why an idex gets skipped in state
-                    spell = spellLookUp[school][section][idx][parseInt(jdx, 10) + 1];
-                  }
+                  const spell = spellLookUp[school][section][idx][jdx];
                   active.push(<ActiveSpell spell={spell} idx={adx} key={adx} school={school} />);
                   adx++;
                 }

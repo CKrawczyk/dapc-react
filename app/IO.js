@@ -3,8 +3,8 @@ import '../css/io.css';
 import React, {Component} from 'react';
 import {Col, Row, Button, ButtonGroup} from 'react-bootstrap';
 import Toggle from 'react-toggle';
-import Blank from 'json!./lib/blank.json';
 import FileInput from 'react-file-reader-input';
+import Blank from 'json!./lib/blank.json';
 
 export default class IO extends Component {
   constructor(props) {
@@ -30,7 +30,9 @@ export default class IO extends Component {
   };
 
   handleClear = () => {
-    this.props.handleLoad(Blank);
+    // make sure to clone blank.json before loading
+    const copy = JSON.parse(JSON.stringify(Blank));
+    this.props.handleLoad(copy);
   };
 
   saveAs = (uri, filename) => {
