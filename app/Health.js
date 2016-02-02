@@ -110,12 +110,24 @@ export default class Health extends Component {
 
   render() {
     const healthButton = (
-      <OverlayTrigger trigger="click" ref="health-popover" placement="bottom" overlay={this.healthPopover()}>
+      <OverlayTrigger
+        trigger="click"
+        rootClose={true}
+        ref="health-popover"
+        placement="bottom"
+        overlay={this.healthPopover()}
+      >
         <Button id="health" className="pm-button">Health<br/>±</Button>
       </OverlayTrigger>
     );
     const manaButton = (
-      <OverlayTrigger trigger="click" ref="mana-popover" placement="bottom" overlay={this.manaPopover()}>
+      <OverlayTrigger
+        trigger="click"
+        rootClose={true}
+        ref="mana-popover"
+        placement="bottom"
+        overlay={this.manaPopover()}
+      >
         <Button id="mana" className="pm-button">Mana<br/>±</Button>
       </OverlayTrigger>
     );
