@@ -322,7 +322,7 @@ class SpellItem extends Component {
         <div className="center">
           <img src={src} />
         </div>
-        <OverlayTrigger trigger="click" placement="right" overlay={spellInfo(this.props.spell)}>
+        <OverlayTrigger trigger="click" rootClose={true} placement="right" overlay={spellInfo(this.props.spell)}>
           <Button className="spell-name no-left-pad no-right-pad">{this.props.spell.label}</Button>
         </OverlayTrigger>
         <div className="center">
@@ -426,7 +426,7 @@ class ActiveSpell extends ActiveBlock {
     return (
       <Row className={this.getClassName()}>
         <Col xs={6} className="no-left-pad">
-          <OverlayTrigger trigger="click" placement="left" overlay={spellInfo(this.props.spell)}>
+          <OverlayTrigger trigger="click" rootClose={true} placement="left" overlay={spellInfo(this.props.spell)}>
             <Button className="no-left-pad no-right-pad" bsSize="small" block={true}>
               {this.props.spell.label}
             </Button>

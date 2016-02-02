@@ -72,7 +72,7 @@ export class ModalBlock extends Component {
           <span className="talent-name">{this.props.item.label}</span>
         </Col>
         <Col xs={2}>
-          <OverlayTrigger trigger="click" placement="right" overlay={this.props.infoRender}>
+          <OverlayTrigger trigger="click" rootClose={true} placement="right" overlay={this.props.infoRender}>
             <Button bsSize="small" block={true}>Info</Button>
           </OverlayTrigger>
         </Col>
@@ -100,7 +100,7 @@ export class ActiveBlock extends Component {
           {this.props.item.label}
         </Col>
         <Col xs={6}>
-          <OverlayTrigger trigger="click" placement="left" overlay={this.props.infoRender}>
+          <OverlayTrigger trigger="click" rootClose={true} placement="left" overlay={this.props.infoRender}>
             <Button bsSize="small" block={true}>Info</Button>
           </OverlayTrigger>
         </Col>
