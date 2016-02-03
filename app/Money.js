@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Col, Row, Input, Button, ButtonGroup, OverlayTrigger, Popover} from 'react-bootstrap';
-import '../css/money.css';
 
 export default class Money extends Component {
   constructor(props) {

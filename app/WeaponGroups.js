@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {Col, Row, Input} from 'react-bootstrap';
 import Groups from './lib/weaponGroups';
-import '../css/weaponGroups.css';
 
 export default class WeaponsGroup extends Component {
   constructor(props) {

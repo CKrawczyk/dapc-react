@@ -6,7 +6,6 @@ import SpellsSpirit from './lib/spells_spirit';
 import SpellsPrimal from './lib/spells_primal';
 import SpellsEntropy from './lib/spells_entropy';
 import SpellsBlood from './lib/spells_blood';
-import '../css/spells.css';
 
 const spellLookUp = {
   blood: SpellsBlood,

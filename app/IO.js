@@ -1,5 +1,3 @@
-import 'react-toggle/style.css';
-import '../css/io.css';
 import React, {Component} from 'react';
 import {Col, Row, Button, ButtonGroup} from 'react-bootstrap';
 import Toggle from 'react-toggle';

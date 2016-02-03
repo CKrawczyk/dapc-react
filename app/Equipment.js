@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Col, Row, Input} from 'react-bootstrap';
-import '../css/equipment.css';
 
 export default class Equipment extends Component {
   constructor(props) {

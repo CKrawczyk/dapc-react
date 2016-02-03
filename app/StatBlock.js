@@ -1,5 +1,3 @@
-import 'react-select/dist/react-select.css';
-import '../css/stat.css';
 import React, {Component} from 'react';
 import Select from 'react-select';
 import {Col, Row, Input} from 'react-bootstrap';

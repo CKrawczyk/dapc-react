@@ -53,7 +53,7 @@ module.exports = {
     chunkFilename: '[id].chunk.js'
   },
   resolve: {
-    extensions: ['', '.js']
+    extensions: ['', '.js', '.css', '.styl']
   },
   devtool: 'source-map',
   plugins: [
@@ -82,6 +82,9 @@ module.exports = {
       }, {
         test: /.(png|jpg)$/,
         loader: 'url-loader?limit=10000'
+      }, {
+        test: /\.styl$/,
+        loader: 'style-loader!css-loader!stylus-loader'
       }
     ]
   }

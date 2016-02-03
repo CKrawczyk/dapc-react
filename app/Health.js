@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Col, Row, Input, Button, OverlayTrigger, Popover, ButtonGroup} from 'react-bootstrap';
-import '../css/health.css';
 
 export default class Health extends Component {
   constructor(props) {

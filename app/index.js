@@ -1,4 +1,4 @@
-import '../css/index.css';
+import '../css/index.styl';
 import React, {Component} from 'react';
 import {render} from 'react-dom';
 import Stats from './Stats';

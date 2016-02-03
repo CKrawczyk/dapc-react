@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Col, Row, Input} from 'react-bootstrap';
-import '../css/notes.css';
 
 export default class Notes extends Component {
   constructor(props) {

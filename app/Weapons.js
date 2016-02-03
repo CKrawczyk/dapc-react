@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Col, Row, Input, Button, ButtonGroup} from 'react-bootstrap';
-import '../css/weapons.css';
 
 class WeaponBlock extends Component {
   constructor(props) {

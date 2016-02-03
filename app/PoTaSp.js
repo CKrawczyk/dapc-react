@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import ClassPowers from './ClassPowers';
 import Talents from './Talents';
-import '../css/talents.css';
 import TalentsList from './lib/talents';
 import SpecialList from './lib/specializations';
 
