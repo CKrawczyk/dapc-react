@@ -41,28 +41,27 @@
 /* eslint-disable no-var */
 var webpack = require('webpack');
 var path = require('path');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './app/index',
+  entry: {
+    dapc: './app/index.js',
+    dagm: './app/DAGM.js'
+  },
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'bundle.js'
+    filename: '[name].bundle.js',
+    chunkFilename: '[id].chunk.js'
   },
   resolve: {
     extensions: ['', '.js']
   },
   devtool: 'source-map',
   plugins: [
-    new HtmlWebpackPlugin({
-      title: 'Dragon Age',
-      template: 'index.ejs',
-      inject: 'body'
-    }),
     new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.optimize.CommonsChunkPlugin('commons.js'),
     new webpack.DefinePlugin({
       'process.env': {
-        'NODE_ENV': JSON.stringify('production')
+        NODE_ENV: JSON.stringify('production')
       }
     }),
     new webpack.optimize.UglifyJsPlugin({

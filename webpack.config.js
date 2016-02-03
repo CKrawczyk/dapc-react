@@ -45,21 +45,30 @@ var webpack = require('webpack');
 var path = require('path');
 
 module.exports = {
-  entry: [
-    'webpack-dev-server/client?http://localhost:5000',
-    'webpack/hot/dev-server',
-    './app/index'
-  ],
+  entry: {
+    dapc: [
+      'webpack-dev-server/client?http://localhost:5000',
+      'webpack/hot/dev-server',
+      './app/index.js'
+    ],
+    dagm: [
+      'webpack-dev-server/client?http://localhost:5000',
+      'webpack/hot/dev-server',
+      './app/DAGM.js'
+    ]
+  },
   output: {
     path: __dirname,
-    filename: 'bundle.js',
-    publicPath: '/static/'
+    filename: '[name].bundle.js',
+    publicPath: '/static/',
+    chunkFilename: '[id].chunk.js'
   },
   resolve: {
     extensions: ['', '.js']
   },
   devtool: 'eval-source-map',
   plugins: [
+    new webpack.optimize.CommonsChunkPlugin('commons.js'),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin()
   ],
