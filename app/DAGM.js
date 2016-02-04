@@ -24,7 +24,7 @@ class DAGM extends Component {
                 <List type="Players" />
               </Col>
               <Col xs={6}>
-                <List type="Foes" multi={true} />
+                <List type="Foes" multi={true} control={true} />
               </Col>
             </Row>
           </Col>

@@ -12,6 +12,12 @@ hr {
   border-top: 2px solid #aaa;
 }
 
+.thin {
+  margin-top: 1px;
+  margin-bottom: 1px;
+  border-top: 1px solid #aaa;
+}
+
 .root {
   background-image: url("../app/lib/images/RedDragon.png");
   background-size: 100%;
