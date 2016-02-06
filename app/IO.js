@@ -4,10 +4,14 @@ import Toggle from 'react-toggle';
 import FileInput from 'react-file-reader-input';
 import Blank from 'json!./lib/blank.json';
 
+const client = new Dropbox.Client({key: '1me738olt2sslgm'});
+
 export default class IO extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      connected: false
+    };
   }
 
   onUpload = (event, result) => {
@@ -16,7 +20,7 @@ export default class IO extends Component {
     }
   };
 
-  onSave = (saveFile) => {
+  onSave = (saveFile, type) => {
     const json = JSON.stringify(saveFile, null, '  ');
     const blob = new Blob([json], {type: 'application/json'});
     const url = URL.createObjectURL(blob);
@@ -24,7 +28,29 @@ export default class IO extends Component {
     if (saveFile.info.name) {
       saveName = `${this.sanitize(saveFile.info.name)}.json`;
     }
-    this.saveAs(url, saveName);
+    switch (type) {
+      case 'download':
+        this.saveAs(url, saveName);
+        break;
+      case 'dropbox':
+        client.writeFile(saveName, json, this.onError);
+        break;
+      default:
+        break;
+    }
+  };
+
+  onError = (errorMessage) => {
+    if (errorMessage) {
+      console.log(errorMessage);
+    }
+  };
+
+  connectDropbox = () => {
+    client.authenticate({interactive: true}, this.onError);
+    if (client.isAuthenticated()) {
+      this.setState({connected: true});
+    }
   };
 
   handleClear = () => {
@@ -72,7 +98,7 @@ export default class IO extends Component {
           <Col xs={8}>
             <ButtonGroup justified={true}>
               <ButtonGroup>
-                <Button onClick={this.props.handleSave}>Save</Button>
+                <Button onClick={this.props.handleSave} id="download">Save</Button>
               </ButtonGroup>
               <ButtonGroup>
                 <FileInput as="text" onChange={this.onUpload}>
@@ -81,6 +107,30 @@ export default class IO extends Component {
               </ButtonGroup>
               <ButtonGroup>
                 <Button onClick={this.handleClear}>Clear</Button>
+              </ButtonGroup>
+            </ButtonGroup>
+          </Col>
+          <Col xs={12}>
+            <hr />
+          </Col>
+          <Col xs={12}>
+            <ButtonGroup justified={true}>
+              <ButtonGroup>
+                <Button onClick={this.connectDropbox} block={true}>
+                  <i className="fa fa-dropbox"></i>
+                  Connect to Dropbox
+                </Button>
+              </ButtonGroup>
+              <ButtonGroup>
+                <Button
+                  onClick={this.props.handleSave}
+                  id="dropbox"
+                  disabled={!this.state.connected}
+                  block={true}
+                >
+                  <i className="fa fa-dropbox"></i>
+                  Save to Dropbox
+                </Button>
               </ButtonGroup>
             </ButtonGroup>
           </Col>
