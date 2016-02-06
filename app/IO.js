@@ -12,7 +12,8 @@ export default class IO extends Component {
     this.state = {
       connected: client.isAuthenticated(),
       alertSaveVisible: false,
-      alertConnectVisible: false
+      alertConnectVisible: false,
+      alertErrorVisible: false
     };
   }
 
@@ -45,6 +46,7 @@ export default class IO extends Component {
   onError = (errorMessage, event) => {
     if (errorMessage) {
       console.log(errorMessage);
+      this.setState({alertErrorVisible: true});
     } else if (event.name) {
       this.setState({alertSaveVisible: true});
     }
@@ -64,7 +66,7 @@ export default class IO extends Component {
   };
 
   handleAlertDismiss = () => {
-    this.setState({alertSaveVisible: false, alertConnectVisible: false});
+    this.setState({alertSaveVisible: false, alertConnectVisible: false, alertErrorVisible: false});
   };
 
   saveAs = (uri, filename) => {
@@ -107,6 +109,14 @@ export default class IO extends Component {
       alertConnect = (
         <Alert bsStyle="success" onDismiss={this.handleAlertDismiss} dismissAfter={2000}>
           <span className="heading">Connected to Dropbox!</span>
+        </Alert>
+      );
+    }
+    let alertError = undefined;
+    if (this.state.alertErrorVisible) {
+      alertError = (
+        <Alert bsStyle="warning" onDismiss={this.handleAlertDismiss} dismissAfter={2000}>
+          <span className="heading">Error, check console</span>
         </Alert>
       );
     }
@@ -165,6 +175,7 @@ export default class IO extends Component {
                   </Button>
                 </ButtonGroup>
               </ButtonGroup>
+              {alertError}
               {alertConnect}
               {alertSave}
             </Col>
