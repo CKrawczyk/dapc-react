@@ -10,38 +10,13 @@
   height: 34px;
 }
 
-.no-left-pad {
-  padding-left: 0;
-}
-
-.no-left-radius,
-.no-left-radius > .Select-control {
-  border-radius: 4px;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-
-.no-right-pad {
-  padding-right: 0;
-}
-
-.no-right-radius,
-.no-right-radius > .Select-control {
-  border-radius: 4px;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-.no-radius {
-  border-radius: 0;
+.health-box {
+  height: 88px;
+  padding-top: 6px;
+  padding-bottom: 6px;
 }
 
 .pm-button {
   z-index: 0 !important;
   height: 68px;
-}
-
-.popover {
-  max-width: 500px;
-  width: 275px;
 }
