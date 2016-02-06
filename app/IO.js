@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Col, Row, Button, ButtonGroup} from 'react-bootstrap';
+import {Col, Row, Button, ButtonGroup, Alert} from 'react-bootstrap';
 import Toggle from 'react-toggle';
 import FileInput from 'react-file-reader-input';
 import Blank from 'json!./lib/blank.json';
@@ -10,7 +10,9 @@ export default class IO extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      connected: false
+      connected: client.isAuthenticated(),
+      alertSaveVisible: false,
+      alertConnectVisible: false
     };
   }
 
@@ -40,16 +42,18 @@ export default class IO extends Component {
     }
   };
 
-  onError = (errorMessage) => {
+  onError = (errorMessage, event) => {
     if (errorMessage) {
       console.log(errorMessage);
+    } else if (event.name) {
+      this.setState({alertSaveVisible: true});
     }
   };
 
   connectDropbox = () => {
     client.authenticate({interactive: true}, this.onError);
     if (client.isAuthenticated()) {
-      this.setState({connected: true});
+      this.setState({alertConnectVisible: true, connected: true});
     }
   };
 
@@ -57,6 +61,10 @@ export default class IO extends Component {
     // make sure to clone blank.json before loading
     const copy = JSON.parse(JSON.stringify(Blank));
     this.props.handleLoad(copy);
+  };
+
+  handleAlertDismiss = () => {
+    this.setState({alertSaveVisible: false, alertConnectVisible: false});
   };
 
   saveAs = (uri, filename) => {
@@ -86,55 +94,82 @@ export default class IO extends Component {
   };
 
   render() {
+    let alertSave = undefined;
+    if (this.state.alertSaveVisible) {
+      alertSave = (
+        <Alert bsStyle="success" onDismiss={this.handleAlertDismiss} dismissAfter={2000}>
+          <span className="heading">File Saved!</span>
+        </Alert>
+      );
+    }
+    let alertConnect = undefined;
+    if (this.state.alertConnectVisible) {
+      alertConnect = (
+        <Alert bsStyle="success" onDismiss={this.handleAlertDismiss} dismissAfter={2000}>
+          <span className="heading">Connected to Dropbox!</span>
+        </Alert>
+      );
+    }
     return (
-      <div className="box">
-        <Row>
-          <Col xs={2} className="reduce-right-pad">
-            <span id="edit-label" className="edit-label">Edit</span>
-          </Col>
-          <Col xs={2} className="reduce-left-pad">
-            <Toggle defaultChecked={this.props.edit} onChange={this.props.handleEdit} aria-labelledby="edit-label" />
-          </Col>
-          <Col xs={8}>
-            <ButtonGroup justified={true}>
-              <ButtonGroup>
-                <Button onClick={this.props.handleSave} id="download">Save</Button>
+      <div>
+        <div className="box">
+          <Row>
+            <Col xs={12}>
+              <span className="heading">File In/Out</span>
+            </Col>
+            <Col xs={2} className="reduce-right-pad">
+              <span id="edit-label" className="edit-label">Edit</span>
+            </Col>
+            <Col xs={2} className="reduce-left-pad">
+              <Toggle defaultChecked={this.props.edit} onChange={this.props.handleEdit} aria-labelledby="edit-label" />
+            </Col>
+            <Col xs={8}>
+              <ButtonGroup justified={true}>
+                <ButtonGroup>
+                  <Button onClick={this.props.handleSave} id="download">Save</Button>
+                </ButtonGroup>
+                <ButtonGroup>
+                  <FileInput as="text" onChange={this.onUpload}>
+                    <Button className="no-radius">Load</Button>
+                  </FileInput>
+                </ButtonGroup>
+                <ButtonGroup>
+                  <Button onClick={this.handleClear}>Clear</Button>
+                </ButtonGroup>
               </ButtonGroup>
-              <ButtonGroup>
-                <FileInput as="text" onChange={this.onUpload}>
-                  <Button className="no-radius">Load</Button>
-                </FileInput>
+            </Col>
+          </Row>
+        </div>
+        <div className="box">
+          <Row>
+            <Col xs={12}>
+              <span className="heading">Dropbox</span>
+            </Col>
+            <Col xs={12}>
+              <ButtonGroup justified={true}>
+                <ButtonGroup>
+                  <Button onClick={this.connectDropbox} block={true}>
+                    <i className="fa fa-dropbox"></i>
+                    Connect to Dropbox
+                  </Button>
+                </ButtonGroup>
+                <ButtonGroup>
+                  <Button
+                    onClick={this.props.handleSave}
+                    id="dropbox"
+                    disabled={!this.state.connected}
+                    block={true}
+                  >
+                    <i className="fa fa-dropbox"></i>
+                    Save to Dropbox
+                  </Button>
+                </ButtonGroup>
               </ButtonGroup>
-              <ButtonGroup>
-                <Button onClick={this.handleClear}>Clear</Button>
-              </ButtonGroup>
-            </ButtonGroup>
-          </Col>
-          <Col xs={12}>
-            <hr />
-          </Col>
-          <Col xs={12}>
-            <ButtonGroup justified={true}>
-              <ButtonGroup>
-                <Button onClick={this.connectDropbox} block={true}>
-                  <i className="fa fa-dropbox"></i>
-                  Connect to Dropbox
-                </Button>
-              </ButtonGroup>
-              <ButtonGroup>
-                <Button
-                  onClick={this.props.handleSave}
-                  id="dropbox"
-                  disabled={!this.state.connected}
-                  block={true}
-                >
-                  <i className="fa fa-dropbox"></i>
-                  Save to Dropbox
-                </Button>
-              </ButtonGroup>
-            </ButtonGroup>
-          </Col>
-        </Row>
+              {alertConnect}
+              {alertSave}
+            </Col>
+          </Row>
+        </div>
       </div>
     );
   }
