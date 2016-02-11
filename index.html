@@ -11,5 +11,10 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dropbox.js/0.10.2/dropbox.min.js"></script>
   <script src="/static/commons.js" charset="utf-8"></script>
   <script src="/static/dapc.bundle.js" charset="utf-8"></script>
+  <script type="text/javascript">
+    if (document.URL.indexOf("#access_token") != -1) {
+      Dropbox.AuthDriver.Popup.oauthReceiver();
+    }
+  </script>
 </body>
 </html>

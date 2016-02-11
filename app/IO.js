@@ -49,14 +49,21 @@ export default class IO extends Component {
       this.setState({alertErrorVisible: true});
     } else if (event.name) {
       this.setState({alertSaveVisible: true});
+    } else if (event.isAuthenticated()) {
+      this.setState({alertConnectVisible: true, connected: true});
     }
   };
 
   connectDropbox = () => {
-    client.authenticate({interactive: true}, this.onError);
-    if (client.isAuthenticated()) {
-      this.setState({alertConnectVisible: true, connected: true});
+    let url = 'http://localhost:5000/';
+    if (process.env.NODE_ENV === 'production') {
+      url = 'https://www.icg.port.ac.uk/~krawcyzc/dapc2/';
     }
+    client.authDriver(new Dropbox.AuthDriver.Popup({
+      rememberUser: true,
+      receiverUrl: url
+    }));
+    client.authenticate(this.onError);
   };
 
   handleClear = () => {
