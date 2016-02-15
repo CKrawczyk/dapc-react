@@ -215,7 +215,8 @@ export default class Overiview extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: false
+      open: false,
+      init: 0
     };
   }
 
@@ -235,6 +236,14 @@ export default class Overiview extends Component {
       stats.push(<StatCircle key={s} name={name} value={value} focus={this.props.input.stats[s].focus} />);
     }
     return stats;
+  };
+
+  handleInput = (event) => {
+    this.setState({[event.target.id]: event.target.value});
+  };
+
+  selectText = (event) => {
+    event.target.select();
   };
 
   render() {
@@ -277,12 +286,13 @@ export default class Overiview extends Component {
         equipment = <ItemOverview name="Equipment" value={this.props.input.equipment} />;
       }
     }
-    const other = [];
+    const info = [];
     let idx = 0;
     for (const type of ['class', 'level', 'gender', 'age', 'race']) {
-      if (this.props.input[type]) {
+      if (this.props.input.info[type]) {
         const name = type.charAt(0).toUpperCase() + type.substr(1).toLowerCase();
-        other.push(<ItemOverview name={name} vlaue={this.props.input[type]} kye={idx} />);
+        console.log(this.props.input.info[type]);
+        info.push(<ItemOverview name={name} value={this.props.input.info[type]} key={idx} />);
         idx ++;
       }
     }
@@ -301,8 +311,15 @@ export default class Overiview extends Component {
         <Col xs={1} className="no-right-pad no-left-pad">
           {this.props.input.utility.speed}
         </Col>
-        <Col xs={2} className="no-right-pad no-left-pad">
-          <Input type="number" bsSize="small" />
+        <Col xs={2} className="no-right-pad no-left-pad fixed-height">
+          <Input
+            type="number"
+            bsSize="small"
+            id="init"
+            value={this.state.init}
+            onChange={this.handleInput}
+            onFocus={this.selectText}
+          />
         </Col>
         <Col xs={1} xsOffset={2} className="no-left-pad">
           <i className="fa fa-times close" onClick={this.onClose}></i>
@@ -315,7 +332,7 @@ export default class Overiview extends Component {
         {weapons}
         <Collapse in={this.state.open} timeout={0}>
           <div>
-            {other}
+            {info}
             {equipment}
             {notes}
           </div>
