@@ -1,4 +1,4 @@
-import '../css/index.styl';
+import '../../css/index.styl';
 import React, {Component} from 'react';
 import {render} from 'react-dom';
 import {Col, Row} from 'react-bootstrap';

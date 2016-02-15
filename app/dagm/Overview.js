@@ -193,6 +193,24 @@ class WeaponOverview extends Component {
   }
 }
 
+class ItemOverview extends Component {
+  render() {
+    return (
+      <div>
+        <Col xs={12}>
+          <hr className="thin" />
+        </Col>
+        <Col xs={3}>
+          {this.props.name}
+        </Col>
+        <Col xs={9}>
+          {this.props.value}
+        </Col>
+      </div>
+    );
+  }
+}
+
 export default class Overiview extends Component {
   constructor(props) {
     super(props);
@@ -252,38 +270,21 @@ export default class Overiview extends Component {
           input={this.props.input.weapons}
         />
       );
-      notes = [];
-      notes.push(
-        <Col xs={12} key="0">
-          <hr className="thin" />
-        </Col>
-      );
-      notes.push(
-        <Col xs={3} key="1">
-          Notes
-        </Col>
-      );
-      notes.push(
-        <Col xs={9} kye="2">
-          {this.props.input.notes}
-        </Col>
-      );
-      equipment = [];
-      equipment.push(
-        <Col xs={12} key="0">
-          <hr className="thin" />
-        </Col>
-      );
-      equipment.push(
-        <Col xs={3} key="1">
-          Equipment
-        </Col>
-      );
-      equipment.push(
-        <Col xs={9} kye="2">
-          {this.props.input.equipment}
-        </Col>
-      );
+      if (this.props.input.notes) {
+        notes = <ItemOverview name="Notes" value={this.props.input.notes} />;
+      }
+      if (this.props.input.equipment) {
+        equipment = <ItemOverview name="Equipment" value={this.props.input.equipment} />;
+      }
+    }
+    const other = [];
+    let idx = 0;
+    for (const type of ['class', 'level', 'gender', 'age', 'race']) {
+      if (this.props.input[type]) {
+        const name = type.charAt(0).toUpperCase() + type.substr(1).toLowerCase();
+        other.push(<ItemOverview name={name} vlaue={this.props.input[type]} kye={idx} />);
+        idx ++;
+      }
     }
     return (
       <Row>
@@ -314,51 +315,7 @@ export default class Overiview extends Component {
         {weapons}
         <Collapse in={this.state.open} timeout={0}>
           <div>
-            <Col xs={12}>
-              <hr className="thin" />
-            </Col>
-            <Col xs={3}>
-              Class
-            </Col>
-            <Col xs={9}>
-              {this.props.input.info.class}
-            </Col>
-            <Col xs={12}>
-              <hr className="thin" />
-            </Col>
-            <Col xs={3}>
-              Level
-            </Col>
-            <Col xs={9}>
-              {this.props.input.info.level}
-            </Col>
-            <Col xs={12}>
-              <hr className="thin" />
-            </Col>
-            <Col xs={3}>
-              Gender
-            </Col>
-            <Col xs={9}>
-              {this.props.input.info.gender}
-            </Col>
-            <Col xs={12}>
-              <hr className="thin" />
-            </Col>
-            <Col xs={3}>
-              Age
-            </Col>
-            <Col xs={9}>
-              {this.props.input.info.age}
-            </Col>
-            <Col xs={12}>
-              <hr className="thin" />
-            </Col>
-            <Col xs={3}>
-              Race
-            </Col>
-            <Col xs={9}>
-              {this.props.input.info.race}
-            </Col>
+            {other}
             {equipment}
             {notes}
           </div>
