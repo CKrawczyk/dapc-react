@@ -27,7 +27,7 @@ export default class Money extends Component {
   };
 
   handelPmButton = (event) => {
-    const multiplier = parseInt(`${event.target.innerText}1`, 10);
+    const multiplier = parseInt(`${event.target.innerHTML}1`, 10);
     const newMoney = {
       gold: this.asInt(this.state.gold) + (multiplier * this.asInt(this.state.gold_adjust)),
       silver: this.asInt(this.state.silver) + (multiplier * this.asInt(this.state.silver_adjust)),

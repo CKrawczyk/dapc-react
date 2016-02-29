@@ -102,6 +102,19 @@ export default class IO extends Component {
     .replace(windowsReservedRe, replacment);
   };
 
+  quickLoad = () => {
+    const input = window.localStorage.dapcQuickSave;
+    if (input) {
+      this.props.handleLoad(JSON.parse(input));
+    }
+  };
+
+  quickSave = () => {
+    const saveFile = this.props.handleSave(undefined, true);
+    const json = JSON.stringify(saveFile, null, '  ');
+    window.localStorage.dapcQuickSave = json;
+  };
+
   render() {
     let alertSave = undefined;
     if (this.state.alertSaveVisible) {
@@ -127,8 +140,41 @@ export default class IO extends Component {
         </Alert>
       );
     }
+    let local = undefined;
+    if (window.localStorage) {
+      local = (
+        <div className="box">
+          <Row>
+            <Col xs={12}>
+              <span className="heading">Quick Save/Load</span>
+            </Col>
+            <Col xs={12}>
+              <ButtonGroup justified={true}>
+                <ButtonGroup>
+                  <Button
+                    onClick={this.quickSave}
+                    block={true}
+                  >
+                    Quick Save
+                  </Button>
+                </ButtonGroup>
+                <ButtonGroup>
+                  <Button
+                    onClick={this.quickLoad}
+                    block={true}
+                  >
+                    Quick Load
+                  </Button>
+                </ButtonGroup>
+              </ButtonGroup>
+            </Col>
+          </Row>
+        </div>
+      );
+    }
     return (
       <div>
+        {local}
         <div className="box">
           <Row>
             <Col xs={12}>

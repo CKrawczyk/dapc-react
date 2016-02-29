@@ -37,7 +37,7 @@ export default class Health extends Component {
 
   handelPmButton = (event) => {
     const newState = {};
-    const multiplier = parseInt(`${event.target.innerText}1`, 10);
+    const multiplier = parseInt(`${event.target.innerHTML}1`, 10);
     const currentValue = parseInt(this.state[event.target.id], 10);
     const adjustValue = parseInt(this.state[`${event.target.id}_adjust`], 10);
     const maxValue = parseInt(this.state[`max_${event.target.id}`], 10);
