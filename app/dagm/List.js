@@ -7,6 +7,8 @@ export default class List extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      multiCheck: false,
+      multiValue: '1',
       inputs: []
     };
   }
@@ -14,7 +16,17 @@ export default class List extends Component {
   onUpload = (event, results) => {
     const inputs = [...this.state.inputs];
     for (const result of results) {
-      inputs.push(JSON.parse(result[0].target.result));
+      if (this.state.multiCheck) {
+        const num = parseInt(this.state.multiValue, 10);
+        for (const idx of Array.from(new Array(num).keys())) {
+          const json = JSON.parse(result[0].target.result);
+          json.info.name = `${json.info.name} ${idx + 1}`;
+          inputs.push(json);
+        }
+      } else {
+        const json = JSON.parse(result[0].target.result);
+        inputs.push(json);
+      }
     }
     this.setState({inputs});
   };
@@ -42,11 +54,53 @@ export default class List extends Component {
     this.setState({inputs});
   };
 
+  handleCheck = (event) => {
+    this.setState({multiCheck: event.target.checked});
+  };
+
+  handleInputChange = (event) => {
+    this.setState({[event.target.id]: event.target.value});
+  };
+
+  selectText = (event) => {
+    event.target.select();
+  };
+
   render() {
     const list = this.getList();
-    let multi = undefined;
+    const fileAdd = (
+      <FileInput as="text" onChange={this.onUpload} multiple={true}>
+        <Button bsSize="xsmall" block={true}>+</Button>
+      </FileInput>
+    );
+    let addButton = fileAdd;
     if (this.props.multi) {
-      multi = <label><input type="checkbox" />Multi</label>;
+      const multi = (
+        <label>
+          <input
+            type="checkbox"
+            checked={this.state.multiCheck}
+            onChange={this.handleCheck}
+          />
+          Multi
+        </label>
+      );
+      addButton = (
+        <Input wrapperClassName="input-group-xs multi-add">
+          <Input
+            type="number"
+            min="1"
+            addonBefore={multi}
+            bsSize="small"
+            value={this.state.multiValue}
+            onChange={this.handleInputChange}
+            disabled={!this.state.multiCheck}
+            onFocus={this.selectText}
+            id="multiValue"
+          />
+        {fileAdd}
+      </Input>
+      );
     }
     return (
       <div className="box">
@@ -72,11 +126,7 @@ export default class List extends Component {
             <b>Init</b>
           </Col>
           <Col xs={3} className="no-left-pad">
-            <Input addonBefore={multi} wrapperClassName="input-group-xs">
-              <FileInput as="text" onChange={this.onUpload} multiple={true}>
-                <Button bsSize="xsmall" block={true}>+</Button>
-              </FileInput>
-            </Input>
+            {addButton}
           </Col>
           <Col xs={12}>
             <hr />
