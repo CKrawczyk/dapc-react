@@ -74,6 +74,7 @@ export default class List extends Component {
 
   handleClose = (idx) => {
     const inputs = this.state.inputs.slice();
+    this.props.trackerRemove(this.state.inputs[idx].info.name, this.props.type);
     inputs.splice(idx, 1);
     this.setState({inputs});
   };

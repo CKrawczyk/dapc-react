@@ -20,7 +20,7 @@ class DAGM extends Component {
 
   highlight = (info) => {
     if (info) {
-      for (const type in this.refs) {
+      for (const type of ['Players', 'Foes']) {
         if (type === info.type) {
           this.refs[type].setState({highlight: info.name});
         } else {
@@ -34,20 +34,24 @@ class DAGM extends Component {
     }
   };
 
+  trackerRemove = (name, type) => {
+    this.refs.Tracker.remove(name, type);
+  };
+
   render() {
     return (
       <div className="container-fluid root">
         <Row>
           <Col xs={3}>
-            <Tracker getInit={this.getInit} highlight={this.highlight} />
+            <Tracker ref="Tracker" getInit={this.getInit} highlight={this.highlight} />
           </Col>
           <Col xs={9}>
             <Row>
               <Col xs={6}>
-                <List type="Players" ref="Players" />
+                <List type="Players" ref="Players" trackerRemove={this.trackerRemove} />
               </Col>
               <Col xs={6}>
-                <List type="Foes" ref="Foes" multi={true} control={true} />
+                <List type="Foes" ref="Foes" multi={true} control={true} trackerRemove={this.trackerRemove} />
               </Col>
             </Row>
           </Col>

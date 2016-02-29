@@ -38,7 +38,21 @@ export default class Tracker extends Component {
   }
 
   onClose = (event) => {
-    let idx = parseInt(event.target.id, 10);
+    this.close(event.target.id);
+  };
+
+  getNames = () => {
+    const items = [];
+    let idx = 0;
+    for (const item of this.state.init) {
+      items.push(<InnerInfo info={item} key={idx} id={idx} onClick={this.onClose} />);
+      idx += 1;
+    }
+    return items;
+  };
+
+  close = (idxInput) => {
+    let idx = parseInt(idxInput, 10);
     const init = this.state.init.slice();
     const removed = init.splice(idx, 1);
     if (removed[0].first) {
@@ -52,14 +66,13 @@ export default class Tracker extends Component {
     this.setState({init}, this.highlightFirst);
   };
 
-  getNames = () => {
-    const items = [];
-    let idx = 0;
-    for (const item of this.state.init) {
-      items.push(<InnerInfo info={item} key={idx} id={idx} onClick={this.onClose} />);
-      idx += 1;
+  remove = (name, type) => {
+    for (const idx in this.state.init) {
+      if (this.state.init[idx].name === name & this.state.init[idx].type === type) {
+        this.close(idx);
+        break;
+      }
     }
-    return items;
   };
 
   initSort = (a, b) => {
