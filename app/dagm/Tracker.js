@@ -46,7 +46,7 @@ export default class Tracker extends Component {
         init[idx].first = true;
       }
     }
-    this.setState({init});
+    this.setState({init}, this.highlightFirst);
   };
 
   getNames = () => {
@@ -63,18 +63,22 @@ export default class Tracker extends Component {
     return b.init - a.init;
   };
 
+  highlightFirst = () => {
+    this.props.highlight(this.state.init[0]);
+  };
+
   addAll = () => {
     const init = this.props.getInit();
     init.sort(this.initSort);
     init[0].first = true;
-    this.setState({init});
+    this.setState({init}, this.highlightFirst);
   };
 
   advance = () => {
     const init = this.state.init.slice();
     const first = init.shift();
     init.push(first);
-    this.setState({init});
+    this.setState({init}, this.highlightFirst);
   };
 
   render() {

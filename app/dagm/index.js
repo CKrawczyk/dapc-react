@@ -18,12 +18,28 @@ class DAGM extends Component {
     return init;
   };
 
+  highlight = (info) => {
+    if (info) {
+      for (const type in this.refs) {
+        if (type === info.type) {
+          this.refs[type].setState({highlight: info.name});
+        } else {
+          this.refs[type].setState({highlight: undefined});
+        }
+      }
+    } else {
+      for (const type in this.refs) {
+        this.refs[type].setState({highlight: undefined});
+      }
+    }
+  };
+
   render() {
     return (
       <div className="container-fluid root">
         <Row>
           <Col xs={3}>
-            <Tracker getInit={this.getInit} />
+            <Tracker getInit={this.getInit} highlight={this.highlight} />
           </Col>
           <Col xs={9}>
             <Row>

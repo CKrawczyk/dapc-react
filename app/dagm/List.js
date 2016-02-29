@@ -9,6 +9,7 @@ export default class List extends Component {
     this.state = {
       multiCheck: false,
       multiValue: '1',
+      highlight: undefined,
       inputs: []
     };
   }
@@ -35,10 +36,20 @@ export default class List extends Component {
     const list = [];
     let idx = 0;
     for (const input of this.state.inputs) {
+      let className = 'overview';
+      if (input.info.name === this.state.highlight) {
+        className += ' init-highlight';
+      }
       const item = (
         <Col xs={12} key={input.info.name}>
-          <div className="overview">
-            <Overview ref={idx} id={idx} input={input} onClose={this.handleClose} control={this.props.control} />
+          <div className={className}>
+            <Overview
+              ref={idx}
+              id={idx}
+              input={input}
+              onClose={this.handleClose}
+              control={this.props.control}
+            />
           </div>
         </Col>
       );
@@ -53,7 +64,6 @@ export default class List extends Component {
     for (const idx in this.state.inputs) {
       const item = {};
       item.init = parseInt(this.refs[idx].state.init, 10);
-      item.idx = idx;
       item.name = this.state.inputs[idx].info.name;
       item.type = this.props.type;
       item.first = false;
