@@ -36,7 +36,7 @@ export default class List extends Component {
     let idx = 0;
     for (const input of this.state.inputs) {
       const item = (
-        <Col xs={12} key={idx}>
+        <Col xs={12} key={input.info.name}>
           <div className="overview">
             <Overview ref={idx} id={idx} input={input} onClose={this.handleClose} control={this.props.control} />
           </div>
@@ -63,7 +63,7 @@ export default class List extends Component {
   };
 
   handleClose = (idx) => {
-    const inputs = [...this.state.inputs];
+    const inputs = this.state.inputs.slice();
     inputs.splice(idx, 1);
     this.setState({inputs});
   };
