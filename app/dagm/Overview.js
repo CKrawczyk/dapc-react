@@ -291,7 +291,6 @@ export default class Overiview extends Component {
     for (const type of ['class', 'level', 'gender', 'age', 'race']) {
       if (this.props.input.info[type]) {
         const name = type.charAt(0).toUpperCase() + type.substr(1).toLowerCase();
-        console.log(this.props.input.info[type]);
         info.push(<ItemOverview name={name} value={this.props.input.info[type]} key={idx} />);
         idx ++;
       }

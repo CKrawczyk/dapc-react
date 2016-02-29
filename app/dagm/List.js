@@ -38,7 +38,7 @@ export default class List extends Component {
       const item = (
         <Col xs={12} key={idx}>
           <div className="overview">
-            <Overview id={idx} input={input} onClose={this.handleClose} control={this.props.control} />
+            <Overview ref={idx} id={idx} input={input} onClose={this.handleClose} control={this.props.control} />
           </div>
         </Col>
       );
@@ -46,6 +46,20 @@ export default class List extends Component {
       idx++;
     }
     return list;
+  };
+
+  getInit = () => {
+    const init = [];
+    for (const idx in this.state.inputs) {
+      const item = {};
+      item.init = parseInt(this.refs[idx].state.init, 10);
+      item.idx = idx;
+      item.name = this.state.inputs[idx].info.name;
+      item.type = this.props.type;
+      item.first = false;
+      init.push(item);
+    }
+    return init;
   };
 
   handleClose = (idx) => {

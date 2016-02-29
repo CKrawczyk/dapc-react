@@ -11,20 +11,27 @@ class DAGM extends Component {
     this.state = {};
   }
 
+  getInit = () => {
+    let init = [];
+    init = init.concat(this.refs.Players.getInit());
+    init = init.concat(this.refs.Foes.getInit());
+    return init;
+  };
+
   render() {
     return (
       <div className="container-fluid root">
         <Row>
           <Col xs={3}>
-            <Tracker />
+            <Tracker getInit={this.getInit} />
           </Col>
           <Col xs={9}>
             <Row>
               <Col xs={6}>
-                <List type="Players" />
+                <List type="Players" ref="Players" />
               </Col>
               <Col xs={6}>
-                <List type="Foes" multi={true} control={true} />
+                <List type="Foes" ref="Foes" multi={true} control={true} />
               </Col>
             </Row>
           </Col>
