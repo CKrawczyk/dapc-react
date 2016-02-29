@@ -4,6 +4,7 @@ import Toggle from 'react-toggle';
 import FileInput from 'react-file-reader-input';
 import Blank from 'json!./lib/blank.json';
 
+/* global Dropbox */
 const client = new Dropbox.Client({key: '1me738olt2sslgm'});
 
 export default class IO extends Component {
