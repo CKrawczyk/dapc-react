@@ -38,10 +38,13 @@ export default class Tracker extends Component {
   }
 
   onClose = (event) => {
-    const idx = parseInt(event.target.id, 10);
+    let idx = parseInt(event.target.id, 10);
     const init = this.state.init.slice();
     const removed = init.splice(idx, 1);
     if (removed[0].first) {
+      if (idx === init.length) {
+        idx = 0;
+      }
       if (init[idx]) {
         init[idx].first = true;
       }
