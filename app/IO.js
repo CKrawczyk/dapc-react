@@ -111,7 +111,7 @@ export default class IO extends Component {
   };
 
   quickSave = () => {
-    const saveFile = this.props.handleSave(undefined, true);
+    const saveFile = this.props.handleSave(undefined);
     const json = JSON.stringify(saveFile, null, '  ');
     window.localStorage.dapcQuickSave = json;
   };

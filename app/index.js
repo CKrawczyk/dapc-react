@@ -48,7 +48,7 @@ class DAPC extends Component {
     this.refs.notes.getInput(loadFile.notes);
   };
 
-  handleSave = (event, raw = false) => {
+  handleSave = (event) => {
     const saveFile = {};
     saveFile.info = this.refs.info.getOutput();
     saveFile.utility = this.refs.utility.getOutput();
@@ -62,7 +62,7 @@ class DAPC extends Component {
     saveFile.money = this.refs.money.getOutput();
     saveFile.spells = this.refs.spells.getOutput();
     saveFile.notes = this.refs.notes.getOutput();
-    if (raw) {
+    if (!event) {
       return saveFile;
     }
     this.refs.io.onSave(saveFile, event.target.id);
