@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Col, Row, Input, OverlayTrigger, Tooltip, Collapse, Button, Popover, ButtonGroup} from 'react-bootstrap';
+import Spells from '../Spells';
 
 class StatCircle extends Component {
   getFocus = () => {
@@ -193,6 +194,31 @@ class WeaponOverview extends Component {
   }
 }
 
+class SpellOverview extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false
+    };
+  }
+
+  onExpand = () => {
+    this.setState({open: !this.state.open});
+  };
+
+  render() {
+    let arrow = <i className="fa fa-chevron-right close pull-left" onClick={this.onExpand}></i>;
+    if (this.state.open) {
+      arrow = <i className="fa fa-chevron-right close pull-left fa-rotate-90" onClick={this.onExpand}></i>;
+    }
+    return (
+      <Col xs={12}>
+        <Spells overview={true} expand={arrow} spells={this.props.spells} open={this.state.open} />
+      </Col>
+    );
+  }
+}
+
 class ItemOverview extends Component {
   render() {
     return (
@@ -254,6 +280,7 @@ export default class Overiview extends Component {
     }
     let health = undefined;
     let mana = undefined;
+    let spells = undefined;
     let weapons = undefined;
     let notes = undefined;
     let equipment = undefined;
@@ -266,6 +293,7 @@ export default class Overiview extends Component {
             max={this.props.input.health.max_mana}
           />
         );
+        spells = <SpellOverview spells={this.props.input.spells} />;
       }
       health = (
         <Control
@@ -329,6 +357,7 @@ export default class Overiview extends Component {
           {stats}
         </Col>
         {weapons}
+        {spells}
         <Collapse in={this.state.open} timeout={0}>
           <div>
             {info}

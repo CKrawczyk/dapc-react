@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Col, Row, Button, OverlayTrigger, Popover, Tab, Tabs} from 'react-bootstrap';
+import {Col, Row, Button, OverlayTrigger, Popover, Tab, Tabs, Collapse} from 'react-bootstrap';
 import {CheckModal, ActiveBlock} from './CheckModal';
 import SpellsCreation from './lib/spells_creation';
 import SpellsSpirit from './lib/spells_spirit';
@@ -448,18 +448,22 @@ class ActiveSpell extends ActiveBlock {
 export default class Spells extends Component {
   constructor(props) {
     super(props);
-    const creation = this.blankState(SpellsCreation);
-    const entropy = this.blankState(SpellsEntropy);
-    const primal = this.blankState(SpellsPrimal);
-    const spirit = this.blankState(SpellsSpirit);
-    const blood = this.blankState(SpellsBlood);
-    this.state = {
-      creation,
-      entropy,
-      primal,
-      spirit,
-      blood
-    };
+    if (this.props.spells) {
+      this.state = this.props.spells;
+    } else {
+      const creation = this.blankState(SpellsCreation);
+      const entropy = this.blankState(SpellsEntropy);
+      const primal = this.blankState(SpellsPrimal);
+      const spirit = this.blankState(SpellsSpirit);
+      const blood = this.blankState(SpellsBlood);
+      this.state = {
+        creation,
+        entropy,
+        primal,
+        spirit,
+        blood
+      };
+    }
   }
 
   onCheckbox = (event) => {
@@ -600,15 +604,56 @@ export default class Spells extends Component {
   };
 
   render() {
-    return (
-      <div className="box">
+    let className = '';
+    let heading = undefined;
+    let editButton = undefined;
+    let spellModal = undefined;
+    let line = undefined;
+    const active = this.activeList();
+    let activeDiv = undefined;
+    if (!this.props.overview) {
+      className = 'box';
+      heading = (
         <Row>
           <Col xs={12}>
             <span className="heading">Spells</span>
           </Col>
         </Row>
+      );
+      editButton = (
+        <Row>
+          <Col xs={12}>
+            <Button id="taletns" block={true} onClick={this.openModal} disabled={!this.props.edit}>
+              Edit Spells
+            </Button>
+          </Col>
+        </Row>
+      );
+      spellModal = <SpellModal ref="spell_modal" label="Spells" onCheckbox={this.onCheckbox} checked={this.state} />;
+      activeDiv = active;
+      line = (
+        <Col xs={12}>
+          <hr />
+        </Col>
+      );
+    } else {
+      activeDiv = (
+        <Collapse in={this.props.open} timeout={0}>
+          <div>
+            <Col xs={12} className="no-left-pad no-right-pad">
+              <hr className="thin" />
+            </Col>
+            {active}
+          </div>
+        </Collapse>
+      );
+    }
+    return (
+      <div className={className}>
+        {heading}
         <Row>
           <Col xs={6}>
+            {this.props.expand}
             Spell
           </Col>
           <Col xs={2} className="no-left-pad no-right-pad">
@@ -620,19 +665,11 @@ export default class Spells extends Component {
           <Col xs={2} className="no-left-pad no-right-pad">
             Cost
           </Col>
-          <Col xs={12}>
-            <hr />
-          </Col>
+          {line}
         </Row>
-        {this.activeList()}
-        <Row>
-          <Col xs={12}>
-            <Button id="taletns" block={true} onClick={this.openModal} disabled={!this.props.edit}>
-              Edit Spells
-            </Button>
-          </Col>
-        </Row>
-        <SpellModal ref="spell_modal" label="Spells" onCheckbox={this.onCheckbox} checked={this.state} />
+        {activeDiv}
+        {editButton}
+        {spellModal}
       </div>
     );
   }

@@ -99,7 +99,7 @@ class DAPC extends Component {
           <Col sm={6} md={4} smPush={6} mdPush={0} className="sm-up2">
             <Language ref="language" edit={this.state.edit} />
             <Money ref="money" />
-            <Spells ref="spells" edit={this.state.edit} />
+            <Spells ref="spells" edit={this.state.edit} overview={false} expand={false} />
             <IO
               ref="io"
               edit={this.state.edit}
