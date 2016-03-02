@@ -3,14 +3,14 @@ import {CheckModal, ModalBlock, ActiveBlock} from './CheckModal';
 import {Col, Row, Popover, Input, Button} from 'react-bootstrap';
 import PowersList from './lib/powers';
 
-const powersLookUp = {};
+export const powersLookUp = {};
 for (const c of ['mage', 'rogue', 'warrior']) {
   for (const p of PowersList[c]) {
     powersLookUp[`${c} ${p.level}`] = p;
   }
 }
 
-const powerInfo = (item) => {
+export const powerInfo = (item) => {
   return (
     <Popover
       id={`${item.label} Information`}

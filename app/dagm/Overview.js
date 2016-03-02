@@ -1,6 +1,11 @@
 import React, {Component} from 'react';
 import {Col, Row, Input, OverlayTrigger, Tooltip, Collapse, Button, Popover, ButtonGroup} from 'react-bootstrap';
 import Spells from '../Spells';
+import {ActiveBlock} from '../CheckModal';
+import {powersLookUp, powerInfo} from '../ClassPowers';
+import {talentInfo} from '../Talents';
+import TalentsList from '../lib/talents';
+import SpecialList from '../lib/specializations';
 
 class StatCircle extends Component {
   getFocus = () => {
@@ -189,6 +194,11 @@ class WeaponOverview extends Component {
             </div>
           </Collapse>
         </Row>
+        <Row>
+          <Col xs={12}>
+            <hr className="thin" />
+          </Col>
+        </Row>
       </Col>
     );
   }
@@ -212,8 +222,97 @@ class SpellOverview extends Component {
       arrow = <i className="fa fa-chevron-right close pull-left fa-rotate-90" onClick={this.onExpand}></i>;
     }
     return (
+      <div>
+        <Col xs={12}>
+          <Spells overview={true} expand={arrow} spells={this.props.spells} open={this.state.open} />
+        </Col>
+        <Col xs={12}>
+          <hr className="thin" />
+        </Col>
+      </div>
+    );
+  }
+}
+
+class PoTaSpOverview extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false
+    };
+  }
+
+  onExpand = () => {
+    this.setState({open: !this.state.open});
+  };
+
+  activePo = (powers, idxStart = 0) => {
+    const active = [];
+    let idx = idxStart;
+    for (const p in powers) {
+      if (powers[p]) {
+        const info = powerInfo(powersLookUp[p]);
+        active.push(
+          <ActiveBlock idx={idx} infoRender={info} key={idx} item={powersLookUp[p]} />
+        );
+        idx++;
+      }
+    }
+    return [active, idx];
+  };
+
+  activeTa = (talents, inputList, idxStart = 0) => {
+    const active = [];
+    let idx = idxStart;
+    let jdx = 0;
+    for (const k in talents) {
+      const v = talents[k];
+      let level = '';
+      for (const l of ['n', 'j', 'm']) {
+        if (v[l]) {
+          level += l;
+        }
+      }
+      if (v.n | v.j | v.m) {
+        const info = talentInfo(inputList[jdx], level);
+        active.push(
+          <ActiveBlock idx={idx} key={idx} item={inputList[jdx]} infoRender={info} />
+        );
+        idx++;
+      }
+      jdx++;
+    }
+    return [active, idx];
+  };
+
+  render() {
+    let arrow = <i className="fa fa-chevron-right close pull-left" onClick={this.onExpand}></i>;
+    if (this.state.open) {
+      arrow = <i className="fa fa-chevron-right close pull-left fa-rotate-90" onClick={this.onExpand}></i>;
+    }
+    const [classPowers, idx] = this.activePo(this.props.potasp.class_powers);
+    const [talents, jdx] = this.activeTa(this.props.potasp.talents, TalentsList, idx);
+    const [special, kdx] = this.activeTa(this.props.potasp.specializations, SpecialList, jdx);
+    return (
       <Col xs={12}>
-        <Spells overview={true} expand={arrow} spells={this.props.spells} open={this.state.open} />
+        <Row>
+          <Col xs={12}>
+            {arrow}
+            Class Powers, Talents, and Specializations
+          </Col>
+          <Col xs={12}>
+            <Collapse in={this.state.open} timeout={0}>
+              <div>
+                <Col xs={12} className="no-left-pad no-right-pad">
+                  <hr className="thin" />
+                </Col>
+                {classPowers}
+                {talents}
+                {special}
+              </div>
+            </Collapse>
+          </Col>
+        </Row>
       </Col>
     );
   }
@@ -284,6 +383,7 @@ export default class Overiview extends Component {
     let weapons = undefined;
     let notes = undefined;
     let equipment = undefined;
+    let poTaSp = undefined;
     if (this.props.control) {
       if (this.props.input.info.class === 'mage') {
         mana = (
@@ -313,6 +413,7 @@ export default class Overiview extends Component {
       if (this.props.input.equipment) {
         equipment = <ItemOverview name="Equipment" value={this.props.input.equipment} />;
       }
+      poTaSp = <PoTaSpOverview potasp={this.props.input.potasp} />;
     }
     const info = [];
     let idx = 0;
@@ -358,6 +459,7 @@ export default class Overiview extends Component {
         </Col>
         {weapons}
         {spells}
+        {poTaSp}
         <Collapse in={this.state.open} timeout={0}>
           <div>
             {info}

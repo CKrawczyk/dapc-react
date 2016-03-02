@@ -32,7 +32,7 @@ const talentRequire = (req) => {
   );
 };
 
-const talentInfo = (item, level = 'njm') => {
+export const talentInfo = (item, level = 'njm') => {
   const fullList = [talentRequire(item.requirement)];
   for (const l of ['novice', 'journeyman', 'master']) {
     if (level.indexOf(l.charAt(0)) >= 0) {
