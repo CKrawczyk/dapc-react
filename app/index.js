@@ -75,7 +75,7 @@ class DAPC extends Component {
           <Col sm={12} md={8}>
             <Info ref="info" edit={this.state.edit} setClass={this.setClass} />
           </Col>
-          <Col sm={6} md={4}>
+          <Col sm={6} md={4} className="sm-top">
             <Utility ref="utility" edit={this.state.edit} />
           </Col>
         </Row>
