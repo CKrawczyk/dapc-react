@@ -1,5 +1,22 @@
-import * as infoActionTypes from './infoActionTypes';
+const infoActionTypes = {
+  CHANGE_GENDER: 'CHANGE_GENDER',
+  CHANGE_AGE: 'CHANGE_AGE',
+  CHANGE_NAME: 'CHANGE_NAME',
+  CHANGE_CLASS: 'CHANGE_CLASS',
+  CHANGE_RACE: 'CHANGE_RACE',
+  CHANGE_LEVEL: 'CHANGE_LEVEL',
+  CHANGE_XP: 'CHANGE_XP',
+  CHANGE_BACKGROUND: 'CHANGE_BACKGROUND'
+};
+
+const utilityActionTypes = {
+  CHANGE_DEFENSE: 'CHANGE_DEFENSE',
+  CHANGE_ARMOR: 'CHANGE_ARMOR',
+  CHANGE_SPEED: 'CHANGE_SPEED',
+  CHANGE_AP: 'CHANGE_AP'
+};
 
 export const types = {
-  infoActionTypes
+  infoActionTypes,
+  utilityActionTypes
 };
