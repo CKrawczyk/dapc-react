@@ -16,7 +16,17 @@ const utilityActionTypes = {
   CHANGE_AP: 'CHANGE_AP'
 };
 
+const healthActionTypes = {
+  CHANGE_MAX_HEALTH: 'CHANGE_MAX_HEALTH',
+  CHANGE_CURRENT_HEALTH: 'CHANGE_CURRENT_HEALTH',
+  CHANGE_ADJUST_HEALTH: 'CHANGE_ADJUST_HEALTH',
+  CHANGE_MAX_MANA: 'CHANGE_MAX_MANA',
+  CHANGE_CURRENT_MANA: 'CHANGE_CURRENT_MANA',
+  CHANGE_ADJUST_MANA: 'CHANGE_ADJUST_MANA'
+};
+
 export const types = {
   infoActionTypes,
-  utilityActionTypes
+  utilityActionTypes,
+  healthActionTypes
 };
