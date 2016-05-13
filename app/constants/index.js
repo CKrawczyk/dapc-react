@@ -25,8 +25,15 @@ const healthActionTypes = {
   CHANGE_ADJUST_MANA: 'CHANGE_ADJUST_MANA'
 };
 
+const statsActionTypes = {
+  CHANGE_FOCUS: 'CHANGE_FOCUS',
+  CHANGE_PRIMARY_STATS: 'CHANGE_PRIMARY_STATS',
+  CHANGE_STAT_VALUE: 'CHANGE_STAT_VALUE'
+};
+
 export const types = {
   infoActionTypes,
   utilityActionTypes,
-  healthActionTypes
+  healthActionTypes,
+  statsActionTypes
 };

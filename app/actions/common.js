@@ -1,3 +1,5 @@
+/* eslint func-names:0 */
+
 function setTextAction(actionType) {
   return function (newValue) {
     return {
@@ -7,6 +9,17 @@ function setTextAction(actionType) {
   };
 }
 
+function setStatsAction(actionType) {
+  return function (newStat) {
+    return {
+      type: actionType,
+      stat: newStat.stat,
+      value: newStat.value
+    };
+  };
+}
+
 export const commonActions = {
-  setTextAction
+  setTextAction,
+  setStatsAction
 };
