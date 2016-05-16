@@ -42,5 +42,8 @@ export const actions = {
   setMoney: setValueAction(actionTypes.CHANGE_MONEY),
   setLanguage: setValueAction(actionTypes.CHANGE_LANGUAGE),
   setEquipment: setValueAction(actionTypes.CHANGE_EQUIPMENT),
-  setNote: setValueAction(actionTypes.CHANGE_NOTE)
+  setNote: setValueAction(actionTypes.CHANGE_NOTE),
+  setClassPowers: setValueAction(actionTypes.CHANGE_CLASS_POWERS),
+  setTalents: setNestedAction(actionTypes.CHANGE_TALENTS),
+  setSpecial: setNestedAction(actionTypes.CHANGE_SPECIAL)
 };

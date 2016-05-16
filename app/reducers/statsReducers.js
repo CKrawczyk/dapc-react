@@ -1,5 +1,5 @@
 import * as actionTypes from '../constants';
-import {reduceValueAction} from './common';
+import {nestedReducer} from './common';
 import StatFocus from '../lib/focus';
 
 const initialState = {};
@@ -11,14 +11,4 @@ for (const f of StatFocus) {
   };
 }
 
-export function statValues(state = initialState, action) {
-  switch (action.type) {
-    case actionTypes.CHANGE_STAT:
-      return {
-        ...state,
-        [action.idx]: reduceValueAction(state[action.idx], action)
-      };
-    default:
-      return state;
-  }
-}
+export const statValues = nestedReducer(actionTypes.CHANGE_STAT, initialState);

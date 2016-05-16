@@ -28,8 +28,23 @@ function topLevelReducer(actionType, initialState) {
   };
 }
 
+function nestedReducer(actionType, initialState) {
+  return function (state = initialState, action) {
+    switch (action.type) {
+      case actionType:
+        return {
+          ...state,
+          [action.idx]: reduceValueAction(state[action.idx], action)
+        };
+      default:
+        return state;
+    }
+  };
+}
+
 export const commonReducers = {
   reduceValueAction,
   valueReducer,
-  topLevelReducer
+  topLevelReducer,
+  nestedReducer
 };
