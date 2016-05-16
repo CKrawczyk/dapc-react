@@ -1,10 +1,10 @@
-function reduceTextAction(state, name, value) {
+function reduceValueAction(state, action) {
   return {
     ...state,
-    [name]: value
+    [action.id]: action.value
   };
 }
 
 export const commonReducers = {
-  reduceTextAction
+  reduceValueAction
 };

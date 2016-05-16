@@ -1,5 +1,5 @@
-import {healthActionTypes} from '../constants';
-import {reduceTextAction} from './common';
+import * as actionTypes from '../constants';
+import {reduceValueAction} from './common';
 
 const initialState = {
   max_health: '0',
@@ -12,18 +12,8 @@ const initialState = {
 
 export function health(state = initialState, action) {
   switch (action.type) {
-    case healthActionTypes.CHANGE_MAX_HEALTH:
-      return reduceTextAction(state, 'max_health', action);
-    case healthActionTypes.CHANGE_CURRENT_HEALTH:
-      return reduceTextAction(state, 'health', action);
-    case healthActionTypes.CHANGE_ADJUST_HEALTH:
-      return reduceTextAction(state, 'health_adjust', action);
-    case healthActionTypes.CHANGE_MAX_MANA:
-      return reduceTextAction(state, 'max_mana', action);
-    case healthActionTypes.CHANGE_CURRENT_MANA:
-      return reduceTextAction(state, 'mana', action);
-    case healthActionTypes.CHANGE_ADJUST_MANA:
-      return reduceTextAction(state, 'mana_adjust', action);
+    case actionTypes.CHANGE_HEALTH_MANA:
+      return reduceValueAction(state, action);
     default:
       return state;
   }

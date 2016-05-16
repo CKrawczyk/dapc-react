@@ -1,40 +1,24 @@
-import {statsActionTypes} from '../constants';
-import {reduceTextAction} from './common';
+import * as actionTypes from '../constants';
+import {reduceValueAction} from './common';
 import StatFocus from '../lib/focus';
-
-const initalStatState = {
-  focus: [],
-  primary: false,
-  value: 0
-};
-
-function innerStat(state = initalStatState, action) {
-  switch (action.type) {
-    case statsActionTypes.CHANGE_FOCUS:
-      return reduceTextAction(state, 'focus', action.value);
-    case statsActionTypes.CHANGE_PRIMARY_STATS:
-      return reduceTextAction(state, 'primary', action.value);
-    case statsActionTypes.CHANGE_STAT_VALUE:
-      return reduceTextAction(state, 'value', action.value);
-    default:
-      return state;
-  }
-}
 
 const initialState = {};
 for (const f of StatFocus) {
-  initialState[f.name] = innerStat();
+  initialState[f.name] = {
+    focus: [],
+    primary: false,
+    value: 0
+  };
 }
 
 export function statValues(state = initialState, action) {
-  let newState;
-  if (action.stat) {
-    newState = {
-      ...state,
-      [action.stat]: innerStat(state[action.stat], action)
-    };
-  } else {
-    newState = state;
+  switch (action.type) {
+    case actionTypes.CHANGE_STAT:
+      return {
+        ...state,
+        [action.stat]: reduceValueAction(state[action.stat], action)
+      };
+    default:
+      return state;
   }
-  return newState;
 }
