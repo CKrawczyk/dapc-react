@@ -45,5 +45,6 @@ export const actions = {
   setNote: setValueAction(actionTypes.CHANGE_NOTE),
   setClassPowers: setValueAction(actionTypes.CHANGE_CLASS_POWERS),
   setTalents: setNestedAction(actionTypes.CHANGE_TALENTS),
-  setSpecial: setNestedAction(actionTypes.CHANGE_SPECIAL)
+  setSpecial: setNestedAction(actionTypes.CHANGE_SPECIAL),
+  setSpell: setNestedAction(actionTypes.CHANGE_SPELL)
 };

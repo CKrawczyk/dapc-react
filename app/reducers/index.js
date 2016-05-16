@@ -10,6 +10,7 @@ import language from './languageReducers';
 import equipment from './equipmentReducers';
 import notes from './noteReducers';
 import potasp from './PoTaSpReducers';
+import spells from './spellReducers';
 
 export const dapcApp = combineReducers({
   info,
@@ -22,5 +23,6 @@ export const dapcApp = combineReducers({
   language,
   equipment,
   notes,
-  potasp
+  potasp,
+  spells
 });
