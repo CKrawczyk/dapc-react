@@ -39,5 +39,8 @@ export const actions = {
   setWeapon: setNestedAction(actionTypes.CHANGE_WEAPONS),
   addWeaponList: setBasicAction(actionTypes.ADD_WEAPONS_LIST),
   removeWeaponList: setBasicAction(actionTypes.REMOVE_WEAPONS_LIST),
-  setMoney: setValueAction(actionTypes.CHANGE_MONEY)
+  setMoney: setValueAction(actionTypes.CHANGE_MONEY),
+  setLanguage: setValueAction(actionTypes.CHANGE_LANGUAGE),
+  setEquipment: setValueAction(actionTypes.CHANGE_EQUIPMENT),
+  setNote: setValueAction(actionTypes.CHANGE_NOTE)
 };

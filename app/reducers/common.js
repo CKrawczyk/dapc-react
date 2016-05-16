@@ -17,7 +17,19 @@ function valueReducer(actionType, initialState) {
   };
 }
 
+function topLevelReducer(actionType, initialState) {
+  return function (state = initialState, action) {
+    switch (action.type) {
+      case actionType:
+        return action.value;
+      default:
+        return state;
+    }
+  };
+}
+
 export const commonReducers = {
   reduceValueAction,
-  valueReducer
+  valueReducer,
+  topLevelReducer
 };

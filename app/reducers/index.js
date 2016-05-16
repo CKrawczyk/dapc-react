@@ -6,6 +6,9 @@ import statValues from './statsReducers';
 import weaponGroups from './weaponGroupsReducers';
 import weapons from './weaponsReducers';
 import money from './moneyReducers';
+import language from './languageReducers';
+import equipment from './equipmentReducers';
+import notes from './noteReducers';
 
 export const dapcApp = combineReducers({
   info,
@@ -14,5 +17,8 @@ export const dapcApp = combineReducers({
   statValues,
   weapon_groups: weaponGroups,
   weapons,
-  money
+  money,
+  language,
+  equipment,
+  notes
 });
