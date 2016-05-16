@@ -16,7 +16,7 @@ export function statValues(state = initialState, action) {
     case actionTypes.CHANGE_STAT:
       return {
         ...state,
-        [action.stat]: reduceValueAction(state[action.stat], action)
+        [action.idx]: reduceValueAction(state[action.idx], action)
       };
     default:
       return state;
