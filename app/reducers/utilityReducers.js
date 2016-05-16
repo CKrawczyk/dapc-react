@@ -1,5 +1,5 @@
 import * as actionTypes from '../constants';
-import {reduceValueAction} from './common';
+import {valueReducer} from './common';
 
 const initialState = {
   defense: '',
@@ -8,11 +8,4 @@ const initialState = {
   ap: ''
 };
 
-export function utility(state = initialState, action) {
-  switch (action.type) {
-    case actionTypes.CHANGE_UTILITY:
-      return reduceValueAction(state, action);
-    default:
-      return state;
-  }
-}
+export const utility = valueReducer(actionTypes.CHANGE_UTILITY, initialState);

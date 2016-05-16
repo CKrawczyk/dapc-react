@@ -1,5 +1,5 @@
 import * as actionTypes from '../constants';
-import {reduceValueAction} from './common';
+import {valueReducer} from './common';
 
 const initialState = {
   gender: '',
@@ -12,11 +12,4 @@ const initialState = {
   background: ''
 };
 
-export function info(state = initialState, action) {
-  switch (action.type) {
-    case actionTypes.CHANGE_INFO:
-      return reduceValueAction(state, action);
-    default:
-      return state;
-  }
-}
+export const info = valueReducer(actionTypes.CHANGE_INFO, initialState);
