@@ -31,14 +31,7 @@ const dapcApp = combineReducers({
 export function dapcAppWrapper(state, action) {
   switch (action.type) {
     case actionTypes.LOAD_DATA:
-      const newState = Object.assign({}, action.value);
-      if (newState.health.health_adjust === undefined) {
-        newState.health.health_adjust = '0';
-      }
-      if (newState.health.mana_adjust === undefined) {
-        newState.health.mana_adjust = '0';
-      }
-      return newState;
+      return action.value;
     default:
       return dapcApp(state, action);
   }

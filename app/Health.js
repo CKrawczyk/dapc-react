@@ -5,18 +5,30 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 class Health extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      health_adjust: '0',
+      mana_adjust: '0'
+    };
+  }
+
   selectText = (event) => {
     event.target.select();
   };
 
   handleInputChange = (event) => {
-    this.props.setHealthMana({id: event.target.id, value: event.target.value});
+    if (event.target.id.split('_')[1] === 'adjust') {
+      this.setState({[event.target.id]: event.target.value});
+    } else {
+      this.props.setHealthMana({id: event.target.id, value: event.target.value});
+    }
   };
 
   handelPmButton = (event) => {
     const multiplier = parseInt(`${event.target.innerHTML}1`, 10);
     const currentValue = parseInt(this.props.health[event.target.id], 10);
-    const adjustValue = parseInt(this.props.health[`${event.target.id}_adjust`], 10);
+    const adjustValue = parseInt(this.state[`${event.target.id}_adjust`], 10);
     const maxValue = parseInt(this.props.health[`max_${event.target.id}`], 10);
     let newValue = currentValue + (adjustValue * multiplier);
     if (newValue < 0) {
@@ -25,7 +37,7 @@ class Health extends Component {
       newValue = maxValue;
     }
     this.props.setHealthMana({id: event.target.id, value: (newValue).toString(10)});
-    this.props.setHealthMana({id: `${event.target.id}_adjust`, value: '0'});
+    this.setState({[`${event.target.id}_adjust`]: '0'});
     this.refs[`${event.target.id}-popover`].hide();
   };
 
@@ -39,7 +51,7 @@ class Health extends Component {
               id="health_adjust"
               min="0"
               max={this.props.health.max_health}
-              value={this.props.health.health_adjust}
+              value={this.state.health_adjust}
               onChange={this.handleInputChange}
               onFocus={this.selectText}
             />
@@ -67,7 +79,7 @@ class Health extends Component {
           id="mana_adjust"
           min="0"
           max={this.props.health.max_mana}
-          value={this.props.health.mana_adjust}
+          value={this.state.mana_adjust}
           onChange={this.handleInputChange}
           onFocus={this.selectText}
         />
