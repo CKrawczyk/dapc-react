@@ -1,4 +1,5 @@
 import {combineReducers} from 'redux';
+import * as actionTypes from '../constants';
 import info from './infoReducers';
 import utility from './utilityReducers';
 import health from './healthReducers';
@@ -26,3 +27,12 @@ export const dapcApp = combineReducers({
   potasp,
   spells
 });
+
+export function dapcAppWrapper(state, action) {
+  switch (action.type) {
+    case actionTypes.LOAD_DATA:
+      return action.value;
+    default:
+      return dapcApp(state, action);
+  }
+}

@@ -30,6 +30,15 @@ function setBasicAction(actionType) {
   };
 }
 
+function setAction(actionType) {
+  return function (value) {
+    return {
+      type: actionType,
+      value
+    };
+  };
+}
+
 export const actions = {
   setInfo: setValueAction(actionTypes.CHANGE_INFO),
   setUtility: setValueAction(actionTypes.CHANGE_UTILITY),
@@ -46,5 +55,6 @@ export const actions = {
   setClassPowers: setValueAction(actionTypes.CHANGE_CLASS_POWERS),
   setTalents: setNestedAction(actionTypes.CHANGE_TALENTS),
   setSpecial: setNestedAction(actionTypes.CHANGE_SPECIAL),
-  setSpell: setNestedAction(actionTypes.CHANGE_SPELL)
+  setSpell: setNestedAction(actionTypes.CHANGE_SPELL),
+  loadData: setAction(actionTypes.LOAD_DATA)
 };
