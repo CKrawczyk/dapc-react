@@ -1,22 +1,13 @@
 import React, {Component} from 'react';
 import {Col, Row, Input} from 'react-bootstrap';
+import {actions} from './actions';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 
-export default class Equipment extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {equipment: ''};
-  }
-
-  getOutput = () => {
-    return this.state.equipment;
-  };
-
-  getInput = (input) => {
-    this.setState({equipment: input});
-  };
-
+class Equipment extends Component {
   handleInputChange = (event) => {
-    this.setState({equipment: event.target.value});
+    // this.setState({equipment: event.target.value});
+    this.props.setEquipment({id: 'notes', value: event.target.value});
   };
 
   render() {
@@ -31,7 +22,7 @@ export default class Equipment extends Component {
               className="equipment"
               type="textarea"
               rows="8"
-              value={this.state.equipment}
+              value={this.props.equipment}
               onChange={this.handleInputChange}
             />
           </Col>
@@ -40,3 +31,13 @@ export default class Equipment extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {equipment: state.equipment};
+}
+
+function mapDispatchToProps(dispatch) {
+  return {setEquipment: bindActionCreators(actions.setEquipment, dispatch)};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Equipment);
