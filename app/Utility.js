@@ -5,14 +5,6 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 class Utility extends Component {
-  getOutput = () => {
-    return {...this.state};
-  };
-
-  getInput = (input) => {
-    this.setState({...input});
-  };
-
   handleInputChange = (event) => {
     this.props.setUtility({id: event.target.id, value: event.target.value});
   };

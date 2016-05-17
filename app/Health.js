@@ -1,55 +1,31 @@
 import React, {Component} from 'react';
 import {Col, Row, Input, Button, OverlayTrigger, Popover, ButtonGroup} from 'react-bootstrap';
+import {actions} from './actions';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 
-export default class Health extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      max_health: '0',
-      health: '0',
-      max_mana: '0',
-      mana: '0',
-      health_adjust: '0',
-      mana_adjust: '0'
-    };
-  }
-
-  getOutput = () => {
-    const output = {...this.state};
-    delete output.health_adjust;
-    delete output.mana_adjust;
-    return output;
-  };
-
-  getInput = (input) => {
-    this.setState({...input});
-  };
-
+class Health extends Component {
   selectText = (event) => {
     event.target.select();
   };
 
   handleInputChange = (event) => {
-    const newState = {};
-    newState[event.target.id] = event.target.value;
-    this.setState(newState);
+    this.props.setHealthMana({id: event.target.id, value: event.target.value});
   };
 
   handelPmButton = (event) => {
-    const newState = {};
     const multiplier = parseInt(`${event.target.innerHTML}1`, 10);
-    const currentValue = parseInt(this.state[event.target.id], 10);
-    const adjustValue = parseInt(this.state[`${event.target.id}_adjust`], 10);
-    const maxValue = parseInt(this.state[`max_${event.target.id}`], 10);
+    const currentValue = parseInt(this.props.health[event.target.id], 10);
+    const adjustValue = parseInt(this.props.health[`${event.target.id}_adjust`], 10);
+    const maxValue = parseInt(this.props.health[`max_${event.target.id}`], 10);
     let newValue = currentValue + (adjustValue * multiplier);
     if (newValue < 0) {
       newValue = 0;
     } else if (newValue > maxValue) {
       newValue = maxValue;
     }
-    newState[event.target.id] = (newValue).toString(10);
-    newState[`${event.target.id}_adjust`] = '0';
-    this.setState(newState);
+    this.props.setHealthMana({id: event.target.id, value: (newValue).toString(10)});
+    this.props.setHealthMana({id: `${event.target.id}_adjust`, value: '0'});
     this.refs[`${event.target.id}-popover`].hide();
   };
 
@@ -62,8 +38,8 @@ export default class Health extends Component {
               type="number"
               id="health_adjust"
               min="0"
-              max={this.state.max_health}
-              value={this.state.health_adjust}
+              max={this.props.health.max_health}
+              value={this.props.health.health_adjust}
               onChange={this.handleInputChange}
               onFocus={this.selectText}
             />
@@ -90,8 +66,8 @@ export default class Health extends Component {
           type="number"
           id="mana_adjust"
           min="0"
-          max={this.state.max_mana}
-          value={this.state.mana_adjust}
+          max={this.props.health.max_mana}
+          value={this.props.health.mana_adjust}
           onChange={this.handleInputChange}
           onFocus={this.selectText}
         />
@@ -139,8 +115,8 @@ export default class Health extends Component {
                 type="number"
                 id="health"
                 min="0"
-                max={this.state.max_health}
-                value={this.state.health}
+                max={this.props.health.max_health}
+                value={this.props.health.health}
                 onChange={this.handleInputChange}
                 onFocus={this.selectText}
               />
@@ -148,7 +124,7 @@ export default class Health extends Component {
                 type="number"
                 id="max_health"
                 min="0"
-                value={this.state.max_health}
+                value={this.props.health.max_health}
                 onChange={this.handleInputChange}
                 onFocus={this.selectText}
                 disabled={!this.props.edit}
@@ -165,8 +141,8 @@ export default class Health extends Component {
                 type="number"
                 id="mana"
                 min="0"
-                max={this.state.max_mana}
-                value={this.state.mana}
+                max={this.props.health.max_mana}
+                value={this.props.health.mana}
                 onChange={this.handleInputChange}
                 onFocus={this.selectText}
               />
@@ -174,7 +150,7 @@ export default class Health extends Component {
                 type="number"
                 id="max_mana"
                 min="0"
-                value={this.state.max_mana}
+                value={this.props.health.max_mana}
                 onChange={this.handleInputChange}
                 onFocus={this.selectText}
                 disabled={!this.props.edit}
@@ -186,3 +162,13 @@ export default class Health extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {health: state.health};
+}
+
+function mapDispatchToProps(dispatch) {
+  return {setHealthMana: bindActionCreators(actions.setHealthMana, dispatch)};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Health);

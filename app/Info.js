@@ -27,14 +27,6 @@ const CLASS = [
 ];
 
 class Info extends Component {
-  getOutput = () => {
-    return {...this.state};
-  };
-
-  getInput = (input) => {
-    this.setState({...input});
-  };
-
   handleInputChange = (event) => {
     this.props.setInfo({id: event.target.id, value: event.target.value});
   };
