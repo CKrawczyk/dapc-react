@@ -1,4 +1,4 @@
-function reduceValueAction(state, action) {
+export function reduceValueAction(state, action) {
   return {
     ...state,
     [action.id]: action.value
@@ -6,7 +6,7 @@ function reduceValueAction(state, action) {
 }
 
 /* eslint func-names:0 */
-function valueReducer(actionType, initialState) {
+export function valueReducer(actionType, initialState) {
   return function (state = initialState, action) {
     switch (action.type) {
       case actionType:
@@ -17,7 +17,7 @@ function valueReducer(actionType, initialState) {
   };
 }
 
-function topLevelReducer(actionType, initialState) {
+export function topLevelReducer(actionType, initialState) {
   return function (state = initialState, action) {
     switch (action.type) {
       case actionType:
@@ -28,7 +28,7 @@ function topLevelReducer(actionType, initialState) {
   };
 }
 
-function nestedReducer(actionType, initialState) {
+export function nestedReducer(actionType, initialState) {
   return function (state = initialState, action) {
     switch (action.type) {
       case actionType:
@@ -41,10 +41,3 @@ function nestedReducer(actionType, initialState) {
     }
   };
 }
-
-export const commonReducers = {
-  reduceValueAction,
-  valueReducer,
-  topLevelReducer,
-  nestedReducer
-};

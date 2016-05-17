@@ -1,6 +1,6 @@
 import * as actionTypes from '../constants';
 import {nestedReducer} from './common';
-import TalentsList from './lib/talents';
+import TalentsList from '../lib/talents';
 
 const initialState = {};
 for (const t in TalentsList) {

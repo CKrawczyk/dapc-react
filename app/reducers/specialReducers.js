@@ -1,6 +1,6 @@
 import * as actionTypes from '../constants';
 import {nestedReducer} from './common';
-import SpecialList from './lib/specializations';
+import SpecialList from '../lib/specializations';
 
 const initialState = {};
 for (const t in SpecialList) {

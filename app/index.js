@@ -16,6 +16,12 @@ import Spells from './Spells';
 import IO from './IO';
 import {Col, Row} from 'react-bootstrap';
 
+import {dapcAppWrapper} from './reducers';
+import {createStore} from 'redux';
+
+const store = createStore(dapcAppWrapper);
+console.log(store.getState());
+
 class DAPC extends Component {
   constructor(props) {
     super(props);

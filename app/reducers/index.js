@@ -1,19 +1,19 @@
 import {combineReducers} from 'redux';
 import * as actionTypes from '../constants';
-import info from './infoReducers';
-import utility from './utilityReducers';
-import health from './healthReducers';
-import statValues from './statsReducers';
-import weaponGroups from './weaponGroupsReducers';
-import weapons from './weaponsReducers';
-import money from './moneyReducers';
-import language from './languageReducers';
-import equipment from './equipmentReducers';
-import notes from './noteReducers';
-import potasp from './PoTaSpReducers';
-import spells from './spellReducers';
+import {info} from './infoReducers';
+import {utility} from './utilityReducers';
+import {health} from './healthReducers';
+import {statValues} from './statsReducers';
+import {weaponGroups} from './weaponGroupsReducers';
+import {weapons} from './weaponsReducers';
+import {money} from './moneyReducers';
+import {language} from './languageReducers';
+import {equipment} from './equipmentReducers';
+import {notes} from './noteReducers';
+import {potasp} from './PoTaSpReducers';
+import {spells} from './spellReducers';
 
-export const dapcApp = combineReducers({
+const dapcApp = combineReducers({
   info,
   utility,
   health,
