@@ -17,12 +17,8 @@ import IO from './IO';
 import {Col, Row} from 'react-bootstrap';
 
 import {dapcAppWrapper} from './reducers';
-import {actions} from './actions';
 import {createStore} from 'redux';
-
-const store = createStore(dapcAppWrapper);
-store.dispatch(actions.setSpell({idx: 'creation', id: ['focus', 'journeyman', '0'], value: true}));
-console.log(store.getState());
+import {Provider, connect} from 'react-redux';
 
 class DAPC extends Component {
   constructor(props) {
@@ -126,7 +122,24 @@ class DAPC extends Component {
   }
 }
 
+function configureStore() {
+  const store = createStore(dapcAppWrapper);
+  if (module.hot) {
+    // Enable Webpack hot module replacement for reducers
+    module.hot.accept('./reducers', () => {
+      const nextRootReducer = require('./reducers/index');
+      store.replaceReducer(nextRootReducer);
+    });
+  }
+  return store;
+}
+
+const store = configureStore();
+const ConnectedDAPC = connect()(DAPC);
+
 render(
-  <DAPC />,
+  <Provider store={store}>
+    <ConnectedDAPC />
+  </Provider>,
   document.getElementById('root')
 );
