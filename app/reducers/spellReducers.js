@@ -44,9 +44,9 @@ const initialState = {
 
 function basicReducer(state, action) {
   return state.map((row, idx) => {
-    if (idx === action.id[1]) {
+    if (idx === parseInt(action.id[1], 10)) {
       return row.map((col, jdx) => {
-        if (jdx === action.id[2]) {
+        if (jdx === parseInt(action.id[2], 10)) {
           return action.value;
         }
         return col;
@@ -58,7 +58,7 @@ function basicReducer(state, action) {
 
 function innerListReducer(state, action, kdx) {
   return state.map((s, idx) => {
-    if (idx === action.id[kdx]) {
+    if (idx === parseInt(action.id[kdx], 10)) {
       return action.value;
     }
     return s;

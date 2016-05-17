@@ -17,9 +17,11 @@ import IO from './IO';
 import {Col, Row} from 'react-bootstrap';
 
 import {dapcAppWrapper} from './reducers';
+import {actions} from './actions';
 import {createStore} from 'redux';
 
 const store = createStore(dapcAppWrapper);
+store.dispatch(actions.setSpell({idx: 'creation', id: ['focus', 'journeyman', '0'], value: true}));
 console.log(store.getState());
 
 class DAPC extends Component {
