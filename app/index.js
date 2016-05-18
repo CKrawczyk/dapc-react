@@ -75,11 +75,12 @@ class DAPC extends Component {
 }
 
 function configureStore() {
-  const store = createStore(dapcAppWrapper);
+  const store = createStore(dapcAppWrapper, undefined,
+    window.devToolsExtension ? window.devToolsExtension() : undefined);
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
     module.hot.accept('./reducers', () => {
-      const nextRootReducer = require('./reducers/index');
+      const nextRootReducer = require('./reducers');
       store.replaceReducer(nextRootReducer);
     });
   }
