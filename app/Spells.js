@@ -6,6 +6,9 @@ import SpellsSpirit from './lib/spells_spirit';
 import SpellsPrimal from './lib/spells_primal';
 import SpellsEntropy from './lib/spells_entropy';
 import SpellsBlood from './lib/spells_blood';
+import {actions} from './actions';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 
 const spellLookUp = {
   blood: SpellsBlood,
@@ -445,109 +448,9 @@ class ActiveSpell extends ActiveBlock {
   }
 }
 
-export default class Spells extends Component {
-  constructor(props) {
-    super(props);
-    if (this.props.spells) {
-      this.state = this.props.spells;
-    } else {
-      const creation = this.blankState(SpellsCreation);
-      const entropy = this.blankState(SpellsEntropy);
-      const primal = this.blankState(SpellsPrimal);
-      const spirit = this.blankState(SpellsSpirit);
-      const blood = this.blankState(SpellsBlood);
-      this.state = {
-        creation,
-        entropy,
-        primal,
-        spirit,
-        blood
-      };
-    }
-  }
-
+class Spells extends Component {
   onCheckbox = (event) => {
-    const id = event.target.id.split(', ');
-    let currentState = [];
-    switch (id[0]) {
-      case 'basic':
-        currentState = [...this.state[event.target.name].basic];
-        currentState[id[1]][id[2]] = event.target.checked;
-        this.setState({[event.target.name]: {...this.state[event.target.name], basic: currentState}});
-        break;
-      case 'focus':
-        currentState = [...this.state[event.target.name].focus[id[1]]];
-        currentState[id[2]] = event.target.checked;
-        this.setState(
-          {
-            [event.target.name]: {
-              ...this.state[event.target.name],
-              focus: {
-                ...this.state[event.target.name].focus,
-                [id[1]]: currentState
-              }
-            }
-          }
-        );
-        break;
-      case 'special':
-        currentState = [...this.state[event.target.name].special[id[1]][id[2]]];
-        currentState[id[3]] = event.target.checked;
-        this.setState(
-          {
-            [event.target.name]: {
-              ...this.state[event.target.name],
-              special: {
-                ...this.state[event.target.name].special,
-                [id[1]]: {
-                  ...this.state[event.target.name].special[id[1]],
-                  [id[2]]: currentState
-                }
-              }
-            }
-          }
-        );
-        break;
-      default:
-        break;
-    }
-  };
-
-  getOutput = () => {
-    return {...this.state};
-  };
-
-  getInput = (input) => {
-    this.setState({...input});
-  };
-
-  falseArray = (length) => {
-    const tmp = Array.apply(null, Array(length));
-    for (const idx in tmp) {
-      tmp[idx] = false;
-    }
-    return tmp;
-  };
-
-  blankState = (spellSchool) => {
-    const blank = {
-      basic: [],
-      focus: {},
-      special: {}
-    };
-    for (const row of spellSchool.basic) {
-      blank.basic.push(this.falseArray(row.length));
-    }
-    for (const level in spellSchool.focus) {
-      blank.focus[level] = this.falseArray(spellSchool.focus[level].length);
-    }
-    for (const special in spellSchool.special) {
-      blank.special[special] = {};
-      for (const level in spellSchool.special[special]) {
-        blank.special[special][level] = this.falseArray(spellSchool.special[special][level].length);
-      }
-    }
-    return blank;
+    this.props.setSpell({idx: event.target.name, id: event.target.id.split(', '), value: event.target.checked});
   };
 
   openModal = () => {
@@ -557,13 +460,13 @@ export default class Spells extends Component {
   activeList = () => {
     const active = [];
     let adx = 0;
-    for (const school in this.state) {
-      for (const section in this.state[school]) {
+    for (const school in this.props.spells) {
+      for (const section in this.props.spells[school]) {
         switch (section) {
           case 'basic':
-            for (const idx in this.state[school][section]) {
-              for (const jdx in this.state[school][section][idx]) {
-                if (this.state[school][section][idx][jdx]) {
+            for (const idx in this.props.spells[school][section]) {
+              for (const jdx in this.props.spells[school][section][idx]) {
+                if (this.props.spells[school][section][idx][jdx]) {
                   const spell = spellLookUp[school][section][idx][jdx];
                   active.push(<ActiveSpell spell={spell} idx={adx} key={adx} school={school} />);
                   adx++;
@@ -572,9 +475,9 @@ export default class Spells extends Component {
             }
             break;
           case 'focus':
-            for (const level in this.state[school][section]) {
-              for (const idx in this.state[school][section][level]) {
-                if (this.state[school][section][level][idx]) {
+            for (const level in this.props.spells[school][section]) {
+              for (const idx in this.props.spells[school][section][level]) {
+                if (this.props.spells[school][section][level][idx]) {
                   const spell = spellLookUp[school][section][level][idx];
                   active.push(<ActiveSpell spell={spell} idx={adx} key={adx} school={school} />);
                   adx++;
@@ -583,10 +486,10 @@ export default class Spells extends Component {
             }
             break;
           case 'special':
-            for (const sp in this.state[school][section]) {
-              for (const level in this.state[school][section][sp]) {
-                for (const idx in this.state[school][section][sp][level]) {
-                  if (this.state[school][section][sp][level][idx]) {
+            for (const sp in this.props.spells[school][section]) {
+              for (const level in this.props.spells[school][section][sp]) {
+                for (const idx in this.props.spells[school][section][sp][level]) {
+                  if (this.props.spells[school][section][sp][level][idx]) {
                     const spell = spellLookUp[school][section][sp][level][idx];
                     active.push(<ActiveSpell spell={spell} idx={adx} key={adx} school={school} />);
                     adx++;
@@ -629,7 +532,14 @@ export default class Spells extends Component {
           </Col>
         </Row>
       );
-      spellModal = <SpellModal ref="spell_modal" label="Spells" onCheckbox={this.onCheckbox} checked={this.state} />;
+      spellModal = (
+        <SpellModal
+          ref="spell_modal"
+          label="Spells"
+          onCheckbox={this.onCheckbox}
+          checked={this.props.spells}
+        />
+      );
       activeDiv = active;
       line = (
         <Col xs={12}>
@@ -674,3 +584,13 @@ export default class Spells extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {spells: state.spells};
+}
+
+function mapDispatchToProps(dispatch) {
+  return {setSpell: bindActionCreators(actions.setSpell, dispatch)};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Spells);
