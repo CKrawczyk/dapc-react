@@ -24,7 +24,7 @@ export function weapons(state = initialState, action) {
       return [...state.slice(0, state.length - 1)];
     case actionTypes.CHANGE_WEAPONS:
       return state.map((w, idx) => {
-        if (idx === action.idx) {
+        if (idx === parseInt(action.idx, 10)) {
           return reduceValueAction(w, action);
         }
         return w;
