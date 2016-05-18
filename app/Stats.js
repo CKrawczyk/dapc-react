@@ -1,23 +1,15 @@
 import React, {Component} from 'react';
 import StatBlock from './StatBlock';
 import StatFocus from './lib/focus';
+import {actions} from './actions';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 
-export default class Stats extends Component {
-  constructor(props) {
-    super(props);
-    const statValues = {};
-    for (const f of StatFocus) {
-      statValues[f.name] = {value: 0, focus: [], primary: false};
+class Stats extends Component {
+  componentWillReceiveProps = (nextProps) => {
+    if (this.props.class !== nextProps.class) {
+      this.updateClass(nextProps.class);
     }
-    this.state = {statValues};
-  }
-
-  getOutput = () => {
-    return {...this.state.statValues};
-  };
-
-  getInput = (input) => {
-    this.setState({statValues: {...input}});
   };
 
   getBlock = () => {
@@ -30,7 +22,7 @@ export default class Stats extends Component {
           key={i}
           edit={this.props.edit}
           ref={f.name}
-          statValues={this.state.statValues[f.name]}
+          statValues={this.props.statValues[f.name]}
           updateValue={this.updateValue}
           updateFocus={this.updateFocus}
         />
@@ -43,54 +35,48 @@ export default class Stats extends Component {
   };
 
   updateValue = (name, value) => {
-    const currentStatValues = this.state.statValues;
-    currentStatValues[name].value = value;
-    this.setState({statValues: currentStatValues});
+    this.props.setStat({idx: name, id: 'value', value});
   };
 
   updateFocus = (name, focus) => {
-    const currentStatValues = this.state.statValues;
-    currentStatValues[name].focus = focus;
-    this.setState({statValues: currentStatValues});
+    this.props.setStat({idx: name, id: 'focus', value: focus});
   };
 
   updateClass = (newClass) => {
-    const currentStatValues = this.state.statValues;
     switch (newClass) {
       case 'mage':
         for (const f of StatFocus) {
           if (['Cunning', 'Magic', 'Willpower'].indexOf(f.name) > -1) {
-            currentStatValues[f.name].primary = true;
+            this.props.setStat({idx: f.name, id: 'primary', value: true});
           } else {
-            currentStatValues[f.name].primary = false;
+            this.props.setStat({idx: f.name, id: 'primary', value: false});
           }
         }
         break;
       case 'rogue':
         for (const f of StatFocus) {
           if (['Communication', 'Dexterity', 'Perception'].indexOf(f.name) > -1) {
-            currentStatValues[f.name].primary = true;
+            this.props.setStat({idx: f.name, id: 'primary', value: true});
           } else {
-            currentStatValues[f.name].primary = false;
+            this.props.setStat({idx: f.name, id: 'primary', value: false});
           }
         }
         break;
       case 'warrior':
         for (const f of StatFocus) {
           if (['Constitution', 'Dexterity', 'Strength'].indexOf(f.name) > -1) {
-            currentStatValues[f.name].primary = true;
+            this.props.setStat({idx: f.name, id: 'primary', value: true});
           } else {
-            currentStatValues[f.name].primary = false;
+            this.props.setStat({idx: f.name, id: 'primary', value: false});
           }
         }
         break;
       default:
         for (const f of StatFocus) {
-          currentStatValues[f.name].primary = false;
+          this.props.setStat({idx: f.name, id: 'primary', value: false});
         }
         break;
     }
-    this.setState({statValues: currentStatValues});
   };
 
   render() {
@@ -101,3 +87,16 @@ export default class Stats extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    statValues: state.statValues,
+    class: state.info.class
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {setStat: bindActionCreators(actions.setStat, dispatch)};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Stats);

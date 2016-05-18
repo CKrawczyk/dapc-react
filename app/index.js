@@ -29,7 +29,6 @@ class DAPC extends Component {
   }
 
   setClass = (newClass) => {
-    this.refs.stats.updateClass(newClass);
     this.refs.potasp.updateClass(newClass);
   };
 
