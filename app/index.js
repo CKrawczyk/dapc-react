@@ -15,7 +15,6 @@ import Notes from './Notes';
 import Spells from './Spells';
 import IO from './IO';
 import {Col, Row} from 'react-bootstrap';
-
 import {dapcAppWrapper} from './reducers';
 import {createStore} from 'redux';
 import {Provider, connect} from 'react-redux';
@@ -37,41 +36,37 @@ class DAPC extends Component {
       <div className="container-fluid root">
         <Row>
           <Col sm={12} md={8}>
-            <Info ref="info" edit={this.state.edit} setClass={this.setClass} />
+            <Info edit={this.state.edit} setClass={this.setClass} />
           </Col>
           <Col sm={6} md={4} className="sm-top">
-            <Utility ref="utility" edit={this.state.edit} />
+            <Utility edit={this.state.edit} />
           </Col>
         </Row>
         <Row>
           <Col sm={6} md={4} className="sm-up">
             <Row>
               <Col xs={12} smPush={12} mdPush={0}>
-                <Health ref="health" edit={this.state.edit} />
+                <Health edit={this.state.edit} />
               </Col>
               <Col xs={12}>
-                <Stats ref="stats" edit={this.state.edit} />
+                <Stats edit={this.state.edit} />
               </Col>
             </Row>
           </Col>
           <Col sm={6} md={4}>
-            <WeaponGroups ref="weapon_groups" edit={this.state.edit} />
-            <Weapons ref="weapons" />
-            <PoTaSp ref="potasp" edit={this.state.edit} />
-            <Equipment ref="equipment" />
+            <WeaponGroups edit={this.state.edit} />
+            <Weapons />
+            <PoTaSp edit={this.state.edit} />
+            <Equipment />
           </Col>
           <Col sm={6} md={4} smPush={6} mdPush={0} className="sm-up2">
-            <Language ref="language" edit={this.state.edit} />
-            <Money ref="money" />
-            <Spells ref="spells" edit={this.state.edit} overview={false} expand={false} />
-            <IO
-              ref="io"
-              edit={this.state.edit}
-              handleEdit={this.handleEdit}
-            />
+            <Language edit={this.state.edit} />
+            <Money />
+            <Spells edit={this.state.edit} overview={false} expand={false} />
+            <IO edit={this.state.edit} handleEdit={this.handleEdit} />
           </Col>
           <Col sm={6} md={12} smPull={6} mdPull={0}>
-            <Notes ref="notes" />
+            <Notes />
           </Col>
         </Row>
       </div>

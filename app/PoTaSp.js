@@ -8,20 +8,6 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 class PoTaSp extends Component {
-  getOutput = () => {
-    return {
-      class_powers: this.refs.class_powers.getOutput(),
-      talents: this.refs.talents.getOutput(),
-      specializations: this.refs.specializations.getOutput()
-    };
-  };
-
-  getInput = (input) => {
-    this.refs.class_powers.getInput(input.class_powers);
-    this.refs.talents.getInput(input.talents);
-    this.refs.specializations.getInput(input.specializations);
-  };
-
   handlePowersUpdate = (event) => {
     this.props.setClassPowers({id: event.target.id, value: event.target.checked});
   };
@@ -42,7 +28,6 @@ class PoTaSp extends Component {
     return (
       <div className="box">
         <ClassPowers
-          ref="class_powers"
           c={this.props.class}
           onChange={this.handlePowersUpdate}
           powers={this.props.powers}
@@ -50,7 +35,6 @@ class PoTaSp extends Component {
         />
         <hr />
         <Talents
-          ref="talents"
           inputList={TalentsList}
           label="Talents"
           c={this.props.class}
@@ -60,7 +44,6 @@ class PoTaSp extends Component {
         />
         <hr />
         <Talents
-          ref="specializations"
           inputList={SpecialList}
           label="Specializations"
           c={this.props.class}

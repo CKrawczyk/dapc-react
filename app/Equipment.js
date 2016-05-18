@@ -6,7 +6,6 @@ import {connect} from 'react-redux';
 
 class Equipment extends Component {
   handleInputChange = (event) => {
-    // this.setState({equipment: event.target.value});
     this.props.setEquipment({id: 'notes', value: event.target.value});
   };
 
