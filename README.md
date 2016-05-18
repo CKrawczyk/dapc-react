@@ -171,6 +171,3 @@ Background image for the site.
 ## app/lib/spell_icons/spl_ico_*.png
 108 spell icons taken from Dragon Age: Origins and Dragon Age: Awakening via the game's official mod tools.  For spells that are not from
 either game appropriate icons were found from the other icons in those games.
-
-TODO:
-- enter spell info
