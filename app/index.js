@@ -28,10 +28,6 @@ class DAPC extends Component {
     };
   }
 
-  setClass = (newClass) => {
-    this.refs.potasp.updateClass(newClass);
-  };
-
   handleEdit = (event) => {
     this.setState({edit: event.target.checked});
   };

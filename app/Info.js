@@ -37,9 +37,6 @@ class Info extends Component {
     } else {
       this.props.setInfo({id: value.state, value: ''});
     }
-    if (value.state === 'class') {
-      this.props.setClass(value.value);
-    }
   };
 
   render() {
