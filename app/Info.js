@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import Select from 'react-select';
 import {Col, Row, Input} from 'react-bootstrap';
+import {actions} from './actions';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 
 const GENDER = [
   {value: '', label: '', state: 'gender'},
@@ -23,45 +26,16 @@ const CLASS = [
   {value: 'warrior', label: 'Warrior', state: 'class'}
 ];
 
-export default class Info extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: '',
-      gender: '',
-      race: '',
-      class: '',
-      age: '',
-      background: '',
-      level: '',
-      xp: ''
-    };
-  }
-
-  getOutput = () => {
-    return {...this.state};
-  };
-
-  getInput = (input) => {
-    this.setState({...input});
-  };
-
+class Info extends Component {
   handleInputChange = (event) => {
-    const newState = {};
-    newState[event.target.id] = event.target.value;
-    this.setState(newState);
+    this.props.setInfo({id: event.target.id, value: event.target.value});
   };
 
   handleSelectChange = (value) => {
-    const newState = {};
     if (value) {
-      newState[value.state] = value.value;
+      this.props.setInfo({id: value.state, value: value.value});
     } else {
-      newState[value.state] = '';
-    }
-    this.setState(newState);
-    if (value.state === 'class') {
-      this.props.setClass(value.value);
+      this.props.setInfo({id: value.state, value: ''});
     }
   };
 
@@ -74,7 +48,7 @@ export default class Info extends Component {
               type="text"
               addonBefore="Name"
               id="name"
-              value={this.state.name}
+              value={this.props.info.name}
               onChange={this.handleInputChange}
               disabled={!this.props.edit}
             />
@@ -85,7 +59,7 @@ export default class Info extends Component {
               <Select
                 className="no-left-radius"
                 placeholder=""
-                value={this.state.gender}
+                value={this.props.info.gender}
                 options={GENDER}
                 onChange={this.handleSelectChange}
                 clearable={false}
@@ -99,7 +73,7 @@ export default class Info extends Component {
               <Select
                 className="no-left-radius"
                 placeholder=""
-                value={this.state.race}
+                value={this.props.info.race}
                 options={RACE}
                 onChange={this.handleSelectChange}
                 clearable={false}
@@ -113,7 +87,7 @@ export default class Info extends Component {
               <Select
                 className="no-left-radius"
                 placeholder=""
-                value={this.state.class}
+                value={this.props.info.class}
                 options={CLASS}
                 onChange={this.handleSelectChange}
                 clearable={false}
@@ -126,7 +100,7 @@ export default class Info extends Component {
               type="text"
               addonBefore="Age"
               id="age"
-              value={this.state.age}
+              value={this.props.info.age}
               onChange={this.handleInputChange}
               disabled={!this.props.edit}
             />
@@ -136,7 +110,7 @@ export default class Info extends Component {
               type="text"
               addonBefore="Back."
               id="background"
-              value={this.state.background}
+              value={this.props.info.background}
               onChange={this.handleInputChange}
               disabled={!this.props.edit}
             />
@@ -147,7 +121,7 @@ export default class Info extends Component {
               min="1"
               addonBefore="Level"
               id="level"
-              value={this.state.level}
+              value={this.props.info.level}
               onChange={this.handleInputChange}
               disabled={!this.props.edit}
             />
@@ -158,7 +132,7 @@ export default class Info extends Component {
               min="0"
               addonBefore="XP"
               id="xp"
-              value={this.state.xp}
+              value={this.props.info.xp}
               onChange={this.handleInputChange}
             />
           </Col>
@@ -167,3 +141,13 @@ export default class Info extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {info: state.info};
+}
+
+function mapDispatchToProps(dispatch) {
+  return {setInfo: bindActionCreators(actions.setInfo, dispatch)};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Info);

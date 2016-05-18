@@ -3,11 +3,14 @@ import {Col, Row, Button, ButtonGroup, Alert} from 'react-bootstrap';
 import Toggle from 'react-toggle';
 import FileInput from 'react-file-reader-input';
 import Blank from 'json!./lib/blank.json';
+import {actions} from './actions';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 
 /* global Dropbox */
 const client = new Dropbox.Client({key: '1me738olt2sslgm'});
 
-export default class IO extends Component {
+class IO extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,7 +23,7 @@ export default class IO extends Component {
 
   onUpload = (event, result) => {
     if (result.length > 0) {
-      this.props.handleLoad(JSON.parse(result[0][0].target.result));
+      this.props.loadData(JSON.parse(result[0][0].target.result));
     }
   };
 
@@ -68,13 +71,16 @@ export default class IO extends Component {
   };
 
   handleClear = () => {
-    // make sure to clone blank.json before loading
     const copy = JSON.parse(JSON.stringify(Blank));
-    this.props.handleLoad(copy);
+    this.props.loadData(copy);
   };
 
   handleAlertDismiss = () => {
     this.setState({alertSaveVisible: false, alertConnectVisible: false, alertErrorVisible: false});
+  };
+
+  handleSave = (event) => {
+    this.onSave(this.props.dapc, event.target.id);
   };
 
   saveAs = (uri, filename) => {
@@ -106,13 +112,12 @@ export default class IO extends Component {
   quickLoad = () => {
     const input = window.localStorage.dapcQuickSave;
     if (input) {
-      this.props.handleLoad(JSON.parse(input));
+      this.props.loadData(JSON.parse(input));
     }
   };
 
   quickSave = () => {
-    const saveFile = this.props.handleSave(undefined);
-    const json = JSON.stringify(saveFile, null, '  ');
+    const json = JSON.stringify(this.props.dapc, null, '  ');
     window.localStorage.dapcQuickSave = json;
   };
 
@@ -190,7 +195,7 @@ export default class IO extends Component {
             <Col xs={8}>
               <ButtonGroup justified={true}>
                 <ButtonGroup>
-                  <Button onClick={this.props.handleSave} id="download">Save</Button>
+                  <Button onClick={this.handleSave} id="download">Save</Button>
                 </ButtonGroup>
                 <ButtonGroup>
                   <FileInput as="text" onChange={this.onUpload}>
@@ -219,7 +224,7 @@ export default class IO extends Component {
                 </ButtonGroup>
                 <ButtonGroup>
                   <Button
-                    onClick={this.props.handleSave}
+                    onClick={this.handleSave}
                     id="dropbox"
                     disabled={!this.state.connected}
                     block={true}
@@ -239,3 +244,13 @@ export default class IO extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {dapc: state};
+}
+
+function mapDispatchToProps(dispatch) {
+  return {loadData: bindActionCreators(actions.loadData, dispatch)};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(IO);

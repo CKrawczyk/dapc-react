@@ -130,24 +130,6 @@ class TalentModal extends CheckModal {
 }
 
 export default class Talents extends Component {
-  constructor(props) {
-    super(props);
-    const talents = {};
-    const blank = {n: false, j: false, m: false};
-    for (const t in this.props.inputList) {
-      talents[t] = blank;
-    }
-    this.state = {talents};
-  }
-
-  getOutput = () => {
-    return {...this.state.talents};
-  };
-
-  getInput = (input) => {
-    this.setState({talents: {...input}});
-  };
-
   openModal = () => {
     this.refs.talent_modal.openModal();
   };
@@ -183,15 +165,15 @@ export default class Talents extends Component {
           break;
       }
     }
-    this.setState({talents: {...this.state.talents, [event.target.id]: newTalent}});
+    this.props.onChange(event.target.id, newTalent);
   };
 
   activeList = () => {
     const active = [];
     let idx = 0;
     let jdx = 0;
-    for (const k in this.state.talents) {
-      const v = this.state.talents[k];
+    for (const k in this.props.talents) {
+      const v = this.props.talents[k];
       let level = '';
       for (const l of ['n', 'j', 'm']) {
         if (v[l]) {
@@ -229,7 +211,7 @@ export default class Talents extends Component {
         <TalentModal
           ref="talent_modal"
           handleCheckbox={this.handleCheckbox}
-          talents={this.state.talents}
+          talents={this.props.talents}
           c={this.props.c}
           inputList={this.props.inputList}
           label={this.props.label}

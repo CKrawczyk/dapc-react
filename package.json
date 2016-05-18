@@ -18,8 +18,10 @@
     "react-bootstrap": "^0.28.2",
     "react-dom": "^0.14.0",
     "react-file-reader-input": "^1.0.1",
+    "react-redux": "^4.4.5",
     "react-select": "^1.0.0-beta8",
-    "react-toggle": "^2.0.1"
+    "react-toggle": "^2.0.1",
+    "redux": "^3.5.2"
   },
   "devDependencies": {
     "babel-core": "^6.3.21",
@@ -41,7 +43,7 @@
     "stylus": "^0.53.0",
     "stylus-loader": "^1.5.1",
     "url-loader": "^0.5.7",
-    "webpack": "^1.8.4",
+    "webpack": "^1.13.0",
     "webpack-dev-server": "^1.8.0"
   }
 }

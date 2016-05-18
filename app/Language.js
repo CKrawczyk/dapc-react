@@ -2,8 +2,11 @@ import React, {Component} from 'react';
 import {Col, Row} from 'react-bootstrap';
 import Select from 'react-select';
 import LanguageList from './lib/languages';
+import {actions} from './actions';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 
-export default class Language extends Component {
+class Language extends Component {
   constructor(props) {
     super(props);
     const languageList = [];
@@ -11,28 +14,16 @@ export default class Language extends Component {
       languageList.push({value: l.toLowerCase().split(' ').join('_'), label: l});
     }
     this.state = {
-      languageList,
-      languages_spoken: [],
-      languages_written: []
+      languageList
     };
   }
-
-  getOutput = () => {
-    const output = {...this.state};
-    delete output.languageList;
-    return output;
-  };
-
-  getInput = (input) => {
-    this.setState({...input});
-  };
 
   handleSpokenChange = (value) => {
     const valueList = [];
     for (const f of value) {
       valueList.push(f.value);
     }
-    this.setState({languages_spoken: valueList});
+    this.props.setLanguage({id: 'languages_spoken', value: valueList});
   };
 
   handleWrittenChange = (value) => {
@@ -40,7 +31,7 @@ export default class Language extends Component {
     for (const f of value) {
       valueList.push(f.value);
     }
-    this.setState({languages_written: valueList});
+    this.props.setLanguage({id: 'languages_written', value: valueList});
   };
 
   render() {
@@ -52,7 +43,7 @@ export default class Language extends Component {
           </Col>
           <Col xs={12}>
             <Select
-              value={this.state.languages_spoken}
+              value={this.props.language.languages_spoken}
               multi={true}
               clearable={false}
               placeholder=""
@@ -66,7 +57,7 @@ export default class Language extends Component {
           </Col>
           <Col xs={12}>
             <Select
-              value={this.state.languages_written}
+              value={this.props.language.languages_written}
               multi={true}
               clearable={false}
               placeholder=""
@@ -80,3 +71,13 @@ export default class Language extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {language: state.language};
+}
+
+function mapDispatchToProps(dispatch) {
+  return {setLanguage: bindActionCreators(actions.setLanguage, dispatch)};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Language);

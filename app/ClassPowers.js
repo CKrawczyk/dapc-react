@@ -103,29 +103,6 @@ class PowerCheck extends Component {
 }
 
 export default class ClassPowers extends Component {
-  constructor(props) {
-    super(props);
-    const powers = {};
-    for (const c of ['mage', 'rogue', 'warrior']) {
-      for (const p of PowersList[c]) {
-        powers[`${c} ${p.level}`] = false;
-      }
-    }
-    this.state = {powers};
-  }
-
-  getOutput = () => {
-    return {...this.state.powers};
-  };
-
-  getInput = (input) => {
-    this.setState({powers: {...input}});
-  };
-
-  handleCheckbox = (event) => {
-    this.setState({powers: {...this.state.powers, [event.target.id]: event.target.checked}});
-  };
-
   openModal = () => {
     this.refs.power_modal.openModal();
   };
@@ -133,8 +110,8 @@ export default class ClassPowers extends Component {
   activeList = () => {
     const active = [];
     let idx = 0;
-    for (const p in this.state.powers) {
-      if (this.state.powers[p]) {
+    for (const p in this.props.powers) {
+      if (this.props.powers[p]) {
         const info = powerInfo(powersLookUp[p]);
         active.push(
           <ActiveBlock idx={idx} infoRender={info} key={idx} item={powersLookUp[p]} />
@@ -163,8 +140,8 @@ export default class ClassPowers extends Component {
         </Row>
         <PowerModal
           ref="power_modal"
-          handleCheckbox={this.handleCheckbox}
-          powers={this.state.powers}
+          handleCheckbox={this.props.onChange}
+          powers={this.props.powers}
           c={this.props.c}
           label="Class Powers"
         />

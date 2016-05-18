@@ -1,42 +1,39 @@
 import React, {Component} from 'react';
 import {Col, Row, Input, Button, ButtonGroup, OverlayTrigger, Popover} from 'react-bootstrap';
+import {actions} from './actions';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 
-export default class Money extends Component {
+class Money extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      gold: '0',
-      silver: '0',
-      copper: '0',
       gold_adjust: '0',
       silver_adjust: '0',
       copper_adjust: '0'
     };
   }
 
-  getOutput = () => {
-    const output = {...this.state};
-    delete output.gold_adjust;
-    delete output.silver_adjust;
-    delete output.copper_adjust;
-    return output;
+  handleSetMoney = (money) => {
+    const converted = this.moneyConvert(money);
+    for (const idx in converted) {
+      this.props.setMoney({id: idx, value: converted[idx]});
+    }
   };
 
-  getInput = (input) => {
-    this.setState({...input});
-  };
-
-  handelPmButton = (event) => {
+  handlePmButton = (event) => {
     const multiplier = parseInt(`${event.target.innerHTML}1`, 10);
     const newMoney = {
-      gold: this.asInt(this.state.gold) + (multiplier * this.asInt(this.state.gold_adjust)),
-      silver: this.asInt(this.state.silver) + (multiplier * this.asInt(this.state.silver_adjust)),
-      copper: this.asInt(this.state.copper) + (multiplier * this.asInt(this.state.copper_adjust))
+      gold: this.asInt(this.props.money.gold) + (multiplier * this.asInt(this.state.gold_adjust)),
+      silver: this.asInt(this.props.money.silver) + (multiplier * this.asInt(this.state.silver_adjust)),
+      copper: this.asInt(this.props.money.copper) + (multiplier * this.asInt(this.state.copper_adjust))
     };
-    const newState = this.moneyConvert(newMoney);
-    newState.gold_adjust = '0';
-    newState.silver_adjust = '0';
-    newState.copper_adjust = '0';
+    this.handleSetMoney(newMoney);
+    const newState = {
+      gold_adjust: '0',
+      silver_adjust: '0',
+      copper_adjust: '0'
+    };
     this.setState(newState);
     this.refs['money-popover'].hide();
   };
@@ -57,12 +54,16 @@ export default class Money extends Component {
       copper: (newCopper).toString(10)};
   };
 
-  moneyConvertState = () => {
-    this.setState(this.moneyConvert(this.state));
-  };
-
   handleInputChange = (event) => {
-    this.setState({[event.target.id]: event.target.value}, this.moneyConvertState);
+    if (event.target.id.split('_')[1] === 'adjust') {
+      this.setState({[event.target.id]: event.target.value});
+    } else {
+      const newMoney = {
+        ...this.props.money,
+        [event.target.id]: event.target.value
+      };
+      this.handleSetMoney(newMoney);
+    }
   };
 
   selectText = (event) => {
@@ -115,10 +116,10 @@ export default class Money extends Component {
           <Col xs={12}>
             <ButtonGroup justified={true}>
               <ButtonGroup>
-                <Button onClick={this.handelPmButton} id="add">+</Button>
+                <Button onClick={this.handlePmButton} id="add">+</Button>
               </ButtonGroup>
               <ButtonGroup>
-                <Button onClick={this.handelPmButton} id="remove">-</Button>
+                <Button onClick={this.handlePmButton} id="remove">-</Button>
               </ButtonGroup>
             </ButtonGroup>
           </Col>
@@ -153,7 +154,7 @@ export default class Money extends Component {
                 type="number"
                 className="form-control"
                 id="gold"
-                value={this.state.gold}
+                value={this.props.money.gold}
                 onChange={this.handleInputChange}
                 onFocus={this.selectText}
               />
@@ -162,7 +163,7 @@ export default class Money extends Component {
                 type="number"
                 className="form-control"
                 id="silver"
-                value={this.state.silver}
+                value={this.props.money.silver}
                 onChange={this.handleInputChange}
                 onFocus={this.selectText}
               />
@@ -171,7 +172,7 @@ export default class Money extends Component {
                 type="number"
                 className="form-control"
                 id="copper"
-                value={this.state.copper}
+                value={this.props.money.copper}
                 onChange={this.handleInputChange}
                 onFocus={this.selectText}
               />
@@ -182,3 +183,13 @@ export default class Money extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {money: state.money};
+}
+
+function mapDispatchToProps(dispatch) {
+  return {setMoney: bindActionCreators(actions.setMoney, dispatch)};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Money);

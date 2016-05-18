@@ -1,12 +1,10 @@
 import React, {Component} from 'react';
 import {Col, Row, Input, Button, ButtonGroup} from 'react-bootstrap';
+import {actions} from './actions';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 
 class WeaponBlock extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
   render() {
     return (
       <Row>
@@ -76,58 +74,23 @@ class WeaponBlock extends Component {
   }
 }
 
-export default class Weapon extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      weapons: [
-        {weapon: '',
-          attack: '',
-          damage: '',
-          range_min: '',
-          range_max: ''
-        }
-      ]
-    };
-  }
-
-  getOutput = () => {
-    return [...this.state.weapons];
-  };
-
-  getInput = (input) => {
-    this.setState({weapons: [...input]});
-  };
-
+class Weapon extends Component {
   handleNewWeapon = () => {
-    const newWeapon = {
-      weapon: '',
-      attack: '',
-      damage: '',
-      range_min: '',
-      range_max: ''
-    };
-    const currentState = this.state;
-    currentState.weapons.push(newWeapon);
-    this.setState(currentState);
+    this.props.addWeaponList();
   };
 
   handleRemoveWeapon = () => {
-    const currentState = this.state;
-    currentState.weapons.pop();
-    this.setState(currentState);
+    this.props.removeWeaponList();
   };
 
   handleInputChange = (event) => {
-    const currentState = this.state;
-    currentState.weapons[event.target.name][event.target.id] = event.target.value;
-    this.setState(currentState);
+    this.props.setWeapon({idx: event.target.name, id: event.target.id, value: event.target.value});
   };
 
   render() {
     const block = [];
     let i = 0;
-    for (const w of this.state.weapons) {
+    for (const w of this.props.weapons) {
       block.push(<WeaponBlock key={i} id={i} weapon={w} onChange={this.handleInputChange} />);
       i++;
     }
@@ -161,7 +124,7 @@ export default class Weapon extends Component {
                 </Button>
               </ButtonGroup>
               <ButtonGroup>
-                <Button onClick={this.handleRemoveWeapon} disabled={this.state.weapons.length <= 1}>
+                <Button onClick={this.handleRemoveWeapon} disabled={this.props.weapons.length <= 1}>
                   Remove Weapon
                 </Button>
               </ButtonGroup>
@@ -172,3 +135,17 @@ export default class Weapon extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {weapons: state.weapons};
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    addWeaponList: bindActionCreators(actions.addWeaponList, dispatch),
+    removeWeaponList: bindActionCreators(actions.removeWeaponList, dispatch),
+    setWeapon: bindActionCreators(actions.setWeapon, dispatch)
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Weapon);

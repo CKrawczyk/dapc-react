@@ -1,28 +1,13 @@
 import React, {Component} from 'react';
 import {Col, Row, Input} from 'react-bootstrap';
 import Groups from './lib/weaponGroups';
+import {actions} from './actions';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 
-export default class WeaponsGroup extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-    for (const g of Groups) {
-      this.state[g.id] = false;
-    }
-  }
-
-  getOutput = () => {
-    return {...this.state};
-  };
-
-  getInput = (input) => {
-    this.setState({...input});
-  };
-
+class WeaponsGroup extends Component {
   handleCheckbox = (event) => {
-    const currentState = this.state;
-    currentState[event.target.id] = event.target.checked;
-    this.setState(currentState);
+    this.props.setWeaponGroups({id: event.target.id, value: event.target.checked});
   };
 
   makeCheckboxes = () => {
@@ -36,7 +21,7 @@ export default class WeaponsGroup extends Component {
             label={g.label}
             id={g.id}
             key={`wg_${i}`}
-            checked={this.state[g.id]}
+            checked={this.props.weapon_groups[g.id]}
             onClick={this.handleCheckbox}
             disabled={!this.props.edit}
           />
@@ -61,3 +46,13 @@ export default class WeaponsGroup extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {weapon_groups: state.weapon_groups};
+}
+
+function mapDispatchToProps(dispatch) {
+  return {setWeaponGroups: bindActionCreators(actions.setWeaponGroups, dispatch)};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(WeaponsGroup);

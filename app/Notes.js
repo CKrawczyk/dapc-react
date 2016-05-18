@@ -1,22 +1,13 @@
 import React, {Component} from 'react';
 import {Col, Row, Input} from 'react-bootstrap';
+import {actions} from './actions';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 
-export default class Notes extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {notes: ''};
-  }
-
-  getOutput = () => {
-    return this.state.notes;
-  };
-
-  getInput = (input) => {
-    this.setState({notes: input});
-  };
-
+class Notes extends Component {
   handleInputChange = (event) => {
-    this.setState({notes: event.target.value});
+    // this.setState({notes: event.target.value});
+    this.props.setNote({id: 'notes', value: event.target.value});
   };
 
   render() {
@@ -31,7 +22,7 @@ export default class Notes extends Component {
               className="notes"
               type="textarea"
               rows="17"
-              value={this.state.notes}
+              value={this.props.notes}
               onChange={this.handleInputChange}
             />
           </Col>
@@ -40,3 +31,13 @@ export default class Notes extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {notes: state.notes};
+}
+
+function mapDispatchToProps(dispatch) {
+  return {setNote: bindActionCreators(actions.setNote, dispatch)};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Notes);

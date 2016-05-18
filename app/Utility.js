@@ -1,29 +1,12 @@
 import React, {Component} from 'react';
 import {Col, Row, Input} from 'react-bootstrap';
+import {actions} from './actions';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 
-export default class Utility extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      defense: '',
-      armor: '',
-      speed: '',
-      ap: ''
-    };
-  }
-
-  getOutput = () => {
-    return {...this.state};
-  };
-
-  getInput = (input) => {
-    this.setState({...input});
-  };
-
+class Utility extends Component {
   handleInputChange = (event) => {
-    const newState = {};
-    newState[event.target.id] = event.target.value;
-    this.setState(newState);
+    this.props.setUtility({id: event.target.id, value: event.target.value});
   };
 
   render() {
@@ -35,7 +18,7 @@ export default class Utility extends Component {
               type="text"
               addonBefore="Defense"
               id="defense"
-              value={this.state.defense}
+              value={this.props.utility.defense}
               onChange={this.handleInputChange}
               disabled={!this.props.edit}
             />
@@ -45,7 +28,7 @@ export default class Utility extends Component {
               type="text"
               addonBefore="Armor"
               id="armor"
-              value={this.state.armor}
+              value={this.props.utility.armor}
               onChange={this.handleInputChange}
               disabled={!this.props.edit}
             />
@@ -57,7 +40,7 @@ export default class Utility extends Component {
               type="text"
               addonBefore="Speed"
               id="speed"
-              value={this.state.speed}
+              value={this.props.utility.speed}
               onChange={this.handleInputChange}
               disabled={!this.props.edit}
             />
@@ -67,7 +50,7 @@ export default class Utility extends Component {
               type="text"
               addonBefore="AP"
               id="ap"
-              value={this.state.ap}
+              value={this.props.utility.ap}
               onChange={this.handleInputChange}
               disabled={!this.props.edit}
             />
@@ -77,3 +60,13 @@ export default class Utility extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {utility: state.utility};
+}
+
+function mapDispatchToProps(dispatch) {
+  return {setUtility: bindActionCreators(actions.setUtility, dispatch)};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Utility);
