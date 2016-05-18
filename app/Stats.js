@@ -90,7 +90,7 @@ class Stats extends Component {
 
 function mapStateToProps(state) {
   return {
-    statValues: state.statValues,
+    statValues: state.stats,
     class: state.info.class
   };
 }

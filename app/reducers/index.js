@@ -17,7 +17,7 @@ const dapcApp = combineReducers({
   info,
   utility,
   health,
-  statValues,
+  stats: statValues,
   weapon_groups: weaponGroups,
   weapons,
   money,

@@ -32,41 +32,6 @@ class DAPC extends Component {
     this.setState({edit: event.target.checked});
   };
 
-  handleLoad = (loadFile) => {
-    this.refs.info.getInput(loadFile.info);
-    this.refs.utility.getInput(loadFile.utility);
-    this.refs.health.getInput(loadFile.health);
-    this.refs.stats.getInput(loadFile.stats);
-    this.refs.weapon_groups.getInput(loadFile.weapon_groups);
-    this.refs.weapons.getInput(loadFile.weapons);
-    this.refs.potasp.getInput(loadFile.potasp);
-    this.refs.equipment.getInput(loadFile.equipment);
-    this.refs.language.getInput(loadFile.language);
-    this.refs.money.getInput(loadFile.money);
-    this.refs.spells.getInput(loadFile.spells);
-    this.refs.notes.getInput(loadFile.notes);
-  };
-
-  handleSave = (event) => {
-    const saveFile = {};
-    saveFile.info = this.refs.info.getOutput();
-    saveFile.utility = this.refs.utility.getOutput();
-    saveFile.health = this.refs.health.getOutput();
-    saveFile.stats = this.refs.stats.getOutput();
-    saveFile.weapon_groups = this.refs.weapon_groups.getOutput();
-    saveFile.weapons = this.refs.weapons.getOutput();
-    saveFile.potasp = this.refs.potasp.getOutput();
-    saveFile.equipment = this.refs.equipment.getOutput();
-    saveFile.language = this.refs.language.getOutput();
-    saveFile.money = this.refs.money.getOutput();
-    saveFile.spells = this.refs.spells.getOutput();
-    saveFile.notes = this.refs.notes.getOutput();
-    if (!event) {
-      return saveFile;
-    }
-    this.refs.io.onSave(saveFile, event.target.id);
-  };
-
   render() {
     return (
       <div className="container-fluid root">
@@ -103,9 +68,6 @@ class DAPC extends Component {
               ref="io"
               edit={this.state.edit}
               handleEdit={this.handleEdit}
-              handleSave={this.handleSave}
-              handleLoad={this.handleLoad}
-              handleClear={this.handleClear}
             />
           </Col>
           <Col sm={6} md={12} smPull={6} mdPull={0}>
