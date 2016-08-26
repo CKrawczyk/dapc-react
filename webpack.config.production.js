@@ -45,7 +45,8 @@ var path = require('path');
 module.exports = {
   entry: {
     dapc: './app/index.js',
-    dagm: './app/dagm/index.js'
+    dagm: './app/dagm/index.js',
+    print: './app/print/index.js'
   },
   output: {
     path: path.join(__dirname, 'dist'),

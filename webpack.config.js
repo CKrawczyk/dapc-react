@@ -55,6 +55,11 @@ module.exports = {
       'webpack-dev-server/client?http://localhost:5000',
       'webpack/hot/dev-server',
       './app/dagm/index.js'
+    ],
+    print: [
+      'webpack-dev-server/client?http://localhost:5000',
+      'webpack/hot/dev-server',
+      './app/print/index.js'
     ]
   },
   output: {

@@ -1,0 +1,62 @@
+body {
+  background: rgb(204,204,204); 
+}
+
+page {
+  background: white;
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 0.5cm;
+  box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+  width: 21cm;
+  height: 29.7cm; 
+}
+
+.row__main {
+  margin-top: 0.5cm;
+}
+
+.row__inner {
+  margin-top: 0.1cm;
+}
+
+.box {
+  border-style: solid;
+  border-width: 1px;
+}
+
+.box__title {
+  text-align: center;
+  background: black;
+  color: white;
+}
+
+.box__value {
+  text-align: center;
+}
+
+.box_side {
+  border-style: solid;
+  border-width: 1px;
+}
+
+.box_side__title {
+  background: black;
+  color: white;
+  padding-left: 3mm;
+  padding-right: 3mm;
+  display: inline-block;
+}
+
+.box_side__value {
+  padding-left: 3mm;
+  padding-right: 3mm;
+  display: inline-block;
+}
+
+@media print {
+  body, page {
+    margin: 0;
+    box-shadow: 0;
+  }
+}
