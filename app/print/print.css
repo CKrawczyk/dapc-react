@@ -1,5 +1,6 @@
 body {
   background: rgb(204,204,204); 
+  font-size: 14pt;
 }
 
 page {
@@ -18,6 +19,10 @@ page {
 
 .row__inner {
   margin-top: 0.1cm;
+}
+
+.blank_lines {
+  height: 1.8cm;
 }
 
 .box {
@@ -52,6 +57,39 @@ page {
   padding-left: 3mm;
   padding-right: 3mm;
   display: inline-block;
+}
+
+.box_table .box_table__title:first-of-type {
+  padding-right: 0;
+  padding-left: 15px;
+}
+
+.box_table .box_table__title {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.box_table .box_table__title:last-of-type {
+  padding-left: 0;
+  padding-right: 15px;
+}
+
+.box_stats .box__title {
+  text-align: left;
+  padding-left: 15px;
+}
+
+.box__focus {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.box_stats__title {
+  padding-right: 0;
+}
+
+.box_stats__value {
+  padding-left: 0;
 }
 
 @media print {
