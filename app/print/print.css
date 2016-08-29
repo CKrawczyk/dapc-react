@@ -1,6 +1,6 @@
 body {
   background: rgb(204,204,204); 
-  font-size: 14pt;
+  font-size: 12pt;
 }
 
 page {
@@ -21,8 +21,18 @@ page {
   margin-top: 0.1cm;
 }
 
+.bold {
+  font-weight: 700;
+}
+
 .blank_lines {
-  height: 1.8cm;
+  height: 1.6cm;
+}
+
+hr {
+  margin: 5px 15px;
+  border: 0;
+  border-top: 1px solid #999;
 }
 
 .box {
@@ -72,6 +82,11 @@ page {
 .box_table .box_table__title:last-of-type {
   padding-left: 0;
   padding-right: 15px;
+}
+
+.box_table__title_left .box__value {
+  text-align: left;
+  font-size: 10pt;
 }
 
 .box_stats .box__title {
