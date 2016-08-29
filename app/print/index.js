@@ -15,6 +15,7 @@ for (const c of ['mage', 'rogue', 'warrior']) {
 
 const Box = (props) => {
   const value = props.value || '\u00a0';
+  const mod = props.mod || '';
   return (
     <Col xs={props.xs}>
       <div className="box">
@@ -27,7 +28,7 @@ const Box = (props) => {
         </Row>
         <Row>
           <Col xs={12}>
-            <div className="box__value">
+            <div className={`box__value${mod}`}>
               {value}
             </div>
           </Col>
@@ -101,7 +102,7 @@ const BoxTable = (props) => {
     );
   }
   return (
-    <div className="box box_table">
+    <div className={`box box_table  ${props.className}`}>
       <Row>
         {titles}
       </Row>
@@ -285,12 +286,44 @@ class Print extends Component {
                   ]]}
                 />
               </Col>
+              <Col xs={5}>
+                <BoxTable
+                  titles={['Gold', 'Silver', 'Copper']}
+                  xs={[4, 4, 4]}
+                  values={[[
+                    this.state.money.gold,
+                    this.state.money.silver,
+                    this.state.money.copper
+                  ]]}
+                  className="inner_space"
+                />
+              </Col>
             </Row>
             <Row className="row__main">
               <Col xs={4}>
                 {stats}
               </Col>
               <Col xs={8}>
+                <Row>
+                  <BoxSide xs={12} title="Weapon Groups" value={weaponGroups.join(', ')} />
+                </Row>
+                <Row className="row__inner">
+                  <Col xs={12}>
+                    <BoxTable
+                      titles={['Weapon', 'Attack Roll', 'Damage', 'Short', 'Long']}
+                      xs={[3, 3, 2, 2, 2]}
+                      values={weapons}
+                    />
+                  </Col>
+                </Row>
+                <Row className="row__main">
+                  <Box xs={6} title="Equipment" value={this.state.equipment} mod="_left" />
+                  <Box xs={6} title="Notes" value={this.state.notes} mod="_left" />
+                </Row>
+              </Col>
+            </Row>
+            <Row className="row__main">
+              <Col xs={12}>
                 <BoxTable
                   titles={['Class Power', 'Info']}
                   xs={[3, 9]}
@@ -299,23 +332,11 @@ class Print extends Component {
                 />
               </Col>
             </Row>
-            <Row className="row__main">
-              <BoxSide xs={12} title="Weapon Groups" value={weaponGroups.join(', ')} />
-            </Row>
-            <Row className="row__inner">
-              <Col xs={12}>
-                <BoxTable
-                  titles={['Weapon', 'Attack Roll', 'Damage', 'Short Range', 'Long Range']}
-                  xs={[3, 3, 2, 2, 2]}
-                  values={weapons}
-                />
-              </Col>
-            </Row>
           </div>
         </page>
         <page>
-          <Row>
-            <Col xs={12}>
+          <div className="container-fluid root">
+            <Row className="row__main">
               <Col xs={12}>
                 <BoxTable
                   titles={['Talent', 'Info']}
@@ -324,8 +345,8 @@ class Print extends Component {
                   mod="_left"
                 />
               </Col>
-            </Col>
-          </Row>
+            </Row>
+          </div>
         </page>
       </div>
     );

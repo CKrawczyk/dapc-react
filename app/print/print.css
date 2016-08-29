@@ -29,6 +29,10 @@ page {
   height: 1.6cm;
 }
 
+.inner_space {
+  margin-top: 0.3cm;
+}
+
 hr {
   margin: 5px 15px;
   border: 0;
@@ -48,6 +52,11 @@ hr {
 
 .box__value {
   text-align: center;
+}
+
+.box__value_left {
+  text-align: left;
+  padding-left: 15px;
 }
 
 .box_side {
