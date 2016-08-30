@@ -121,6 +121,12 @@ class IO extends Component {
     window.localStorage.dapcQuickSave = json;
   };
 
+  printableNav = () => {
+    this.quickSave();
+    const url = `${window.location.href}print.html`;
+    window.open(url, '_blank');
+  };
+
   render() {
     let alertSave = undefined;
     if (this.state.alertSaveVisible) {
@@ -162,6 +168,14 @@ class IO extends Component {
                     block={true}
                   >
                     Quick Save
+                  </Button>
+                </ButtonGroup>
+                <ButtonGroup>
+                  <Button
+                    onClick={this.printableNav}
+                    block={true}
+                  >
+                    Pritable version
                   </Button>
                 </ButtonGroup>
                 <ButtonGroup>

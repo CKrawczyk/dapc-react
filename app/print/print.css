@@ -13,6 +13,10 @@ page {
   width: 21cm;
 }
 
+img {
+  width: 100%;
+}
+
 .row__main {
   margin-top: 0.5cm;
 }
@@ -42,6 +46,7 @@ hr {
 .box {
   border-style: solid;
   border-width: 1px;
+  border-radius: 0.1cm;
 }
 
 .box__title {
@@ -62,6 +67,7 @@ hr {
 .box_side {
   border-style: solid;
   border-width: 1px;
+  border-radius: 0.1cm;
 }
 
 .box_side__title {
@@ -95,7 +101,6 @@ hr {
 
 .box_table__title_left .box__value {
   text-align: left;
-  font-size: 10pt;
 }
 
 .box_stats .box__title {

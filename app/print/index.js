@@ -10,6 +10,7 @@ import SpellsSpirit from '../lib/spells_spirit';
 import SpellsPrimal from '../lib/spells_primal';
 import SpellsEntropy from '../lib/spells_entropy';
 import SpellsBlood from '../lib/spells_blood';
+const logo = require('./Dragon_age_logo.png');
 
 const spellLookUp = {
   blood: SpellsBlood,
@@ -151,7 +152,7 @@ const StatBox = (props) => {
         <Row>
           <Col xs={12}>
             <div className="box__focus">
-              {props.focus.join(', ').replace('_', ' ') || '\u00a0'}
+              {props.focus.join(', ').replace(/_/g, ' ') || '\u00a0'}
             </div>
           </Col>
         </Row>
@@ -225,7 +226,7 @@ class Print extends Component {
     const weaponGroups = [];
     for (const group in this.state.weapon_groups) {
       if (this.state.weapon_groups[group]) {
-        weaponGroups.push(group.replace('_', ' '));
+        weaponGroups.push(group.replace(/_/g, ' '));
       }
     }
     const weapons = [];
@@ -328,13 +329,24 @@ class Print extends Component {
         }
       }
     }
+    let spellBox;
+    if (spells.length > 0) {
+      spellBox = (
+        <BoxTable
+          titles={['Spells']}
+          xs={[12]}
+          values={spells}
+          mod="_left"
+        />
+      );
+    }
     return (
       <div>
         <page size="A4">
           <div className="container-fluid root">
             <Row className="row__main">
               <Col xs={4}>
-                Dragon Age
+                <img src={logo} role="presentation" />
               </Col>
               <Box xs={3} title="Class" value={this.state.info.class} />
               <Box xs={2} title="Level" value={this.state.info.level} />
@@ -397,14 +409,14 @@ class Print extends Component {
                   <BoxSide
                     xs={12}
                     title="Spoken Languages"
-                    value={this.state.language.languages_spoken.join(', ').replace('_', ' ')}
+                    value={this.state.language.languages_spoken.join(', ').replace(/_/g, ' ')}
                   />
                 </Row>
                 <Row className="row__inner">
                   <BoxSide
                     xs={12}
                     title="Written Languages"
-                    value={this.state.language.languages_written.join(', ').replace('_', ' ')}
+                    value={this.state.language.languages_written.join(', ').replace(/_/g, ' ')}
                   />
                 </Row>
                 <Row className="row__main">
@@ -449,12 +461,7 @@ class Print extends Component {
             </Row>
             <Row className="row__main">
               <Col xs={12}>
-                <BoxTable
-                  titles={['Spells']}
-                  xs={[12]}
-                  values={spells}
-                  mod="_left"
-                />
+                {spellBox}
               </Col>
             </Row>
           </div>
