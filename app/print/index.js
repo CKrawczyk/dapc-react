@@ -5,6 +5,19 @@ import {Col, Row} from 'react-bootstrap';
 import PowersList from '../lib/powers';
 import TalentsList from '../lib/talents';
 import SpecialsList from '../lib/specializations';
+import SpellsCreation from '../lib/spells_creation';
+import SpellsSpirit from '../lib/spells_spirit';
+import SpellsPrimal from '../lib/spells_primal';
+import SpellsEntropy from '../lib/spells_entropy';
+import SpellsBlood from '../lib/spells_blood';
+
+const spellLookUp = {
+  blood: SpellsBlood,
+  creation: SpellsCreation,
+  spirit: SpellsSpirit,
+  primal: SpellsPrimal,
+  entropy: SpellsEntropy
+};
 
 export const powersLookUp = {};
 for (const c of ['mage', 'rogue', 'warrior']) {
@@ -14,7 +27,6 @@ for (const c of ['mage', 'rogue', 'warrior']) {
 }
 
 const Box = (props) => {
-  const value = props.value || '\u00a0';
   const mod = props.mod || '';
   return (
     <Col xs={props.xs}>
@@ -29,7 +41,7 @@ const Box = (props) => {
         <Row>
           <Col xs={12}>
             <div className={`box__value${mod}`}>
-              {value}
+              {props.value || '\u00a0'}
             </div>
           </Col>
         </Row>
@@ -62,9 +74,13 @@ const BoxTable = (props) => {
   const mod = props.mod || '';
   const titles = [];
   const values = [];
+  let only = '';
+  if (props.titles.length === 1) {
+    only = '_only';
+  }
   for (const idx in props.titles) {
     titles.push(
-      <Col xs={props.xs[idx]} key={`title:${idx}`} className="box_table__title">
+      <Col xs={props.xs[idx]} key={`title:${idx}`} className={`box_table__title${only}`}>
         <div className="box__title">
           {props.titles[idx]}
         </div>
@@ -102,7 +118,7 @@ const BoxTable = (props) => {
     );
   }
   return (
-    <div className={`box box_table  ${props.className}`}>
+    <div className={`box box_table  ${props.className || ''}`}>
       <Row>
         {titles}
       </Row>
@@ -142,6 +158,38 @@ const StatBox = (props) => {
       </div>
     </Col>
   );
+};
+
+const spellRow = (spell, school) => {
+  const spellOut = (
+    <div>
+      <span className="bold">Name: </span>
+      {spell.label},
+      <span className="bold"> School: </span>
+      {school},
+      <span className="bold"> Spell Type: </span>
+      {spell.info.type},
+      <span className="bold"> Mana Cost: </span>
+      {spell.info.cost},
+      <span className="bold"> Casting Time: </span>
+      {spell.info.time},
+      <span className="bold"> Target Number: </span>
+      {spell.info.tn},
+      <span className="bold"> Test: </span>
+      {spell.info.test},
+      <span className="bold"> Requirement: </span>
+      {spell.info.requirement}
+      <br />
+      <span className="bold">Description: </span>
+      {spell.info.description}
+    </div>
+  );
+  /* const info = (
+    <div>
+      {spell.info.description}
+    </div>
+  );*/
+  return [spellOut];
 };
 
 const njmLookup = {
@@ -239,6 +287,47 @@ class Print extends Component {
         talents.push([SpecialsList[talent].label, out]);
       }
     }
+    const spells = [];
+    for (const school in this.state.spells) {
+      for (const section in this.state.spells[school]) {
+        switch (section) {
+          case 'basic':
+            for (const idxSpell in this.state.spells[school][section]) {
+              for (const jdxSpell in this.state.spells[school][section][idxSpell]) {
+                if (this.state.spells[school][section][idxSpell][jdxSpell]) {
+                  const spell = spellLookUp[school][section][idxSpell][jdxSpell];
+                  spells.push(spellRow(spell, school));
+                }
+              }
+            }
+            break;
+          case 'focus':
+            for (const level in this.state.spells[school][section]) {
+              for (const idxSpell in this.state.spells[school][section][level]) {
+                if (this.state.spells[school][section][level][idxSpell]) {
+                  const spell = spellLookUp[school][section][level][idxSpell];
+                  spells.push(spellRow(spell, school));
+                }
+              }
+            }
+            break;
+          case 'special':
+            for (const sp in this.state.spells[school][section]) {
+              for (const level in this.state.spells[school][section][sp]) {
+                for (const idxSpell in this.state.spells[school][section][sp][level]) {
+                  if (this.state.spells[school][section][sp][level][idxSpell]) {
+                    const spell = spellLookUp[school][section][sp][level][idxSpell];
+                    spells.push(spellRow(spell, school));
+                  }
+                }
+              }
+            }
+            break;
+          default:
+            break;
+        }
+      }
+    }
     return (
       <div>
         <page size="A4">
@@ -249,7 +338,7 @@ class Print extends Component {
               </Col>
               <Box xs={3} title="Class" value={this.state.info.class} />
               <Box xs={2} title="Level" value={this.state.info.level} />
-              <Box xs={3} title="XP" vlaue={this.state.info.xp} />
+              <Box xs={3} title="XP" value={this.state.info.xp} />
             </Row>
             <Row className="row__main">
               <Col xs={4}>
@@ -305,6 +394,20 @@ class Print extends Component {
               </Col>
               <Col xs={8}>
                 <Row>
+                  <BoxSide
+                    xs={12}
+                    title="Spoken Languages"
+                    value={this.state.language.languages_spoken.join(', ').replace('_', ' ')}
+                  />
+                </Row>
+                <Row className="row__inner">
+                  <BoxSide
+                    xs={12}
+                    title="Written Languages"
+                    value={this.state.language.languages_written.join(', ').replace('_', ' ')}
+                  />
+                </Row>
+                <Row className="row__main">
                   <BoxSide xs={12} title="Weapon Groups" value={weaponGroups.join(', ')} />
                 </Row>
                 <Row className="row__inner">
@@ -317,8 +420,10 @@ class Print extends Component {
                   </Col>
                 </Row>
                 <Row className="row__main">
-                  <Box xs={6} title="Equipment" value={this.state.equipment} mod="_left" />
-                  <Box xs={6} title="Notes" value={this.state.notes} mod="_left" />
+                  <Box xs={12} title="Equipment" value={this.state.equipment} mod="_left" />
+                </Row>
+                <Row className="row__inner">
+                  <Box xs={12} title="Notes" value={this.state.notes} mod="_left" />
                 </Row>
               </Col>
             </Row>
@@ -332,16 +437,22 @@ class Print extends Component {
                 />
               </Col>
             </Row>
-          </div>
-        </page>
-        <page>
-          <div className="container-fluid root">
             <Row className="row__main">
               <Col xs={12}>
                 <BoxTable
-                  titles={['Talent', 'Info']}
-                  xs={[2, 10]}
+                  titles={['Talent/Specialization', 'Info']}
+                  xs={[3, 9]}
                   values={talents}
+                  mod="_left"
+                />
+              </Col>
+            </Row>
+            <Row className="row__main">
+              <Col xs={12}>
+                <BoxTable
+                  titles={['Spells']}
+                  xs={[12]}
+                  values={spells}
                   mod="_left"
                 />
               </Col>
