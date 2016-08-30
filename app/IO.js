@@ -123,7 +123,11 @@ class IO extends Component {
 
   printableNav = () => {
     this.quickSave();
-    const url = `${window.location.href}print.html`;
+    let url = `${window.location.href}print.html`;
+    const location = window.location.href;
+    if (location.indexOf('index.html') > -1) {
+      url = window.location.href.replace('index', 'print');
+    }
     window.open(url, '_blank');
   };
 
