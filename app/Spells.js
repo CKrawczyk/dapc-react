@@ -448,7 +448,7 @@ class ActiveSpell extends ActiveBlock {
   }
 }
 
-class Spells extends Component {
+export class SpellsStandAlone extends Component {
   onCheckbox = (event) => {
     this.props.setSpell({idx: event.target.name, id: event.target.id.split(', '), value: event.target.checked});
   };
@@ -593,4 +593,4 @@ function mapDispatchToProps(dispatch) {
   return {setSpell: bindActionCreators(actions.setSpell, dispatch)};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Spells);
+export default connect(mapStateToProps, mapDispatchToProps)(SpellsStandAlone);

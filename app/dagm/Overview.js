@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Col, Row, Input, OverlayTrigger, Tooltip, Collapse, Button, Popover, ButtonGroup} from 'react-bootstrap';
-import Spells from '../Spells';
+import {SpellsStandAlone} from '../Spells';
 import {ActiveBlock} from '../CheckModal';
 import {powersLookUp, powerInfo} from '../ClassPowers';
 import {talentInfo} from '../Talents';
@@ -224,7 +224,7 @@ class SpellOverview extends Component {
     return (
       <div>
         <Col xs={12}>
-          <Spells overview={true} expand={arrow} spells={this.props.spells} open={this.state.open} />
+          <SpellsStandAlone overview={true} expand={arrow} spells={this.props.spells} open={this.state.open} />
         </Col>
         <Col xs={12}>
           <hr className="thin" />
