@@ -4,3 +4,5 @@ app/lib/*
 *.iml
 move_to_icg.sh
 dist/*
+magical_mishap.py
+.ropeproject

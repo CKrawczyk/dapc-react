@@ -6,18 +6,21 @@ import Blank from 'json!./lib/blank.json';
 import {actions} from './actions';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-
-/* global Dropbox */
-const client = new Dropbox.Client({key: '1me738olt2sslgm'});
+import DropboxAPI from 'dropbox';
+import getHashParams from './getHashParams';
 
 class IO extends Component {
   constructor(props) {
     super(props);
+    const hash = getHashParams(window.location.hash);
+    const accessToken = hash.access_token;
     this.state = {
-      connected: client.isAuthenticated(),
+      connected: !!accessToken,
+      accessToken,
       alertSaveVisible: false,
-      alertConnectVisible: false,
-      alertErrorVisible: false
+      alertConnectVisible: !!accessToken,
+      alertErrorVisible: false,
+      dbx: false
     };
   }
 
@@ -40,34 +43,30 @@ class IO extends Component {
         this.saveAs(url, saveName);
         break;
       case 'dropbox':
-        client.writeFile(saveName, json, this.onError);
+        const dbx = new DropboxAPI({accessToken: this.state.accessToken});
+        dbx.filesUpload({path: `/${saveName}`, contents: json})
+          .then(() => {
+            this.setState({alertSaveVisible: true});
+          })
+          .catch((error) => {
+            console.error(error);
+            this.setState({alertErrorVisible: true});
+          });
         break;
       default:
         break;
     }
   };
 
-  onError = (errorMessage, event) => {
-    if (errorMessage) {
-      console.log(errorMessage);
-      this.setState({alertErrorVisible: true});
-    } else if (event.name) {
-      this.setState({alertSaveVisible: true});
-    } else if (event.isAuthenticated()) {
-      this.setState({alertConnectVisible: true, connected: true});
-    }
-  };
-
   connectDropbox = () => {
-    let url = 'http://localhost:5000/';
+    console.log('here');
+    const dbx = new DropboxAPI({clientId: '1me738olt2sslgm'});
+    let url = dbx.getAuthenticationUrl('http://localhost:5000/');
     if (process.env.NODE_ENV === 'production') {
-      url = 'https://www.icg.port.ac.uk/~krawcyzc/dapc2/';
+      url = dbx.getAuthenticationURL('https://www.icg.port.ac.uk/~krawcyzc/dapc2/');
     }
-    client.authDriver(new Dropbox.AuthDriver.Popup({
-      rememberUser: true,
-      receiverUrl: url
-    }));
-    client.authenticate(this.onError);
+    console.log(url);
+    window.location.assign(url);
   };
 
   handleClear = () => {
