@@ -63,7 +63,7 @@ class IO extends Component {
     const dbx = new DropboxAPI({clientId: '1me738olt2sslgm'});
     let url = dbx.getAuthenticationUrl('http://localhost:5000/');
     if (process.env.NODE_ENV === 'production') {
-      url = dbx.getAuthenticationURL('https://www.icg.port.ac.uk/~krawcyzc/dapc2/');
+      url = dbx.getAuthenticationUrl('https://www.icg.port.ac.uk/~krawcyzc/dapc2/');
     }
     console.log(url);
     window.location.assign(url);
