@@ -14,13 +14,16 @@ class IO extends Component {
     super(props);
     const hash = getHashParams(window.location.hash);
     const accessToken = hash.access_token;
+    let dbx = null;
+    if (!!accessToken) {
+      dbx = new DropboxAPI({accessToken});
+    }
     this.state = {
       connected: !!accessToken,
-      accessToken,
+      dbx,
       alertSaveVisible: false,
       alertConnectVisible: !!accessToken,
-      alertErrorVisible: false,
-      dbx: false
+      alertErrorVisible: false
     };
   }
 
@@ -43,8 +46,7 @@ class IO extends Component {
         this.saveAs(url, saveName);
         break;
       case 'dropbox':
-        const dbx = new DropboxAPI({accessToken: this.state.accessToken});
-        dbx.filesUpload({path: `/${saveName}`, contents: json})
+        this.state.dbx.filesUpload({path: `/${saveName}`, contents: json})
           .then(() => {
             this.setState({alertSaveVisible: true});
           })
