@@ -46,7 +46,7 @@ class IO extends Component {
         this.saveAs(url, saveName);
         break;
       case 'dropbox':
-        this.state.dbx.filesUpload({path: `/${saveName}`, contents: json})
+        this.state.dbx.filesUpload({path: `/${saveName}`, contents: json, mode: 'overwrite'})
           .then(() => {
             this.setState({alertSaveVisible: true});
           })
